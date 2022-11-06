@@ -143,11 +143,11 @@ router.post('/', (request, response, next) => {
                 
                 const options = {
                     from: "cultivate-app@outlook.com",
-                    to: request.body.email,
+                    to: "razvanc@uw.edu",
                     subject: "Your Cultivate email verification",
                     html: 'Thank you for joining Cultivate!' +  
                     '<br><br>' + 
-                    'Press <a href=https://cultivate-app-web-service/verify/${uniqueString}> here </a>' + 
+                    `Press <a href=https://cultivate-app-web-service/verify/${request.body.email}> here </a>` + 
                     ' to verify your email.' +
                     '<br><br>' +
                     'Best regards,' + 
