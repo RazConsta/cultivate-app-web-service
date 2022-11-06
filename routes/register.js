@@ -155,6 +155,7 @@ router.post('/', (request, response, next) => {
                     'The Cultivate Team'
                 }
                 
+                // LETS GO
                 transporter.sendMail(options, function(err, info) {
                     if (err) {
                         console.log(err);
