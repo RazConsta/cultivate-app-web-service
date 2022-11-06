@@ -21,11 +21,11 @@ const transporter = nodemailer.createTransport({
 
 const options = {
     from: "cultivate-app@outlook.com",
-    // to: "razvanc@uw.edu",
+    to: "razvanc@uw.edu",
     subject: "Your Cultivate email verification",
     html: 'Thank you for joining Cultivate!' +  
     '<br><br>' + 
-    'Press <a href=https://cultivate-app-web-service/verify/${uniqueString}> here </a>' + 
+    'Press <a href=https://cultivate-app-web-service/verify/${email}> here </a>' + 
     ' to verify your email.' +
     '<br><br>' +
     'Best regards,' + 
