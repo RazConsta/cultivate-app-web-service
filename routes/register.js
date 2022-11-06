@@ -14,6 +14,8 @@ const generateSalt = require('../utilities').generateSalt
 
 const sendEmail = require('../utilities').sendEmail
 
+const nodemailer = require('nodemailer');
+
 const router = express.Router()
 
 /**
@@ -114,7 +116,15 @@ router.post('/', (request, response, next) => {
                     success: true,
                     email: request.body.email
                 })
-                sendEmail("our.email@lab.com", request.body.email, "Welcome to our App!", "Please verify your Email account.")
+                // Commented because it was provided by Charles
+                // sendEmail("our.email@lab.com", request.body.email, "Welcome to our App!", "Please verify your Email account.")
+                transporter.sendMail(options, function(err, info) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    console.log("Sent: " + info.response);
+                })
             })
             .catch((error) => {
                 //log the error for debugging
