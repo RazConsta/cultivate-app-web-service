@@ -120,8 +120,42 @@ router.post('/', (request, response, next) => {
                 // Commented because it was provided by Charles
                 // sendEmail("our.email@lab.com", request.body.email, "Welcome to our App!", "Please verify your Email account.")
                 
-                exports.transporter.sendMail(exports.options, function(err, info) {
+                /*exports.transporter.sendMail(exports.options, function(err, info) {
                     exports.options.to = email;
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    console.log("Sent: " + info.response);
+                })*/
+
+                const transporter = nodemailer.createTransport({
+                    service: "hotmail",
+                    auth: { // TODO: read user and pass from .env file
+                        user: "cultivate-app@outlook.com",
+                        pass: "kfdsvj2354!@!!__fds"
+                    },
+                    // tls required to bypass "self signed certificate" error
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                
+                const options = {
+                    from: "cultivate-app@outlook.com",
+                    // to: "razvanc@uw.edu",
+                    subject: "Your Cultivate email verification",
+                    html: 'Thank you for joining Cultivate!' +  
+                    '<br><br>' + 
+                    'Press <a href=https://cultivate-app-web-service/verify/${uniqueString}> here </a>' + 
+                    ' to verify your email.' +
+                    '<br><br>' +
+                    'Best regards,' + 
+                    '<br>' +
+                    'The Cultivate Team'
+                }
+                
+                transporter.sendMail(options, function(err, info) {
                     if (err) {
                         console.log(err);
                         return;
