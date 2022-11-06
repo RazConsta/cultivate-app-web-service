@@ -117,23 +117,12 @@ router.post('/', (request, response, next) => {
                     success: true,
                     email: request.body.email
                 })
-                // Commented because it was provided by Charles
-                // sendEmail("our.email@lab.com", request.body.email, "Welcome to our App!", "Please verify your Email account.")
-                
-                /*exports.transporter.sendMail(exports.options, function(err, info) {
-                    exports.options.to = email;
-                    if (err) {
-                        console.log(err);
-                        return;
-                    }
-                    console.log("Sent: " + info.response);
-                })*/
 
                 const transporter = nodemailer.createTransport({
                     service: "hotmail",
                     auth: { // TODO: read user and pass from .env file
-                        user: "cultivate-app@outlook.com",
-                        pass: "kfdsvj2354!@!!__fds"
+                        user: "cultivate-app@outlook.com",// TODO: read user and pass from .env file
+                        pass: "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
                     },
                     // tls required to bypass "self signed certificate" error
                     tls: {
@@ -143,11 +132,11 @@ router.post('/', (request, response, next) => {
                 
                 const options = {
                     from: "cultivate-app@outlook.com",
-                    to: "razvanc@uw.edu",
+                    to: request.body.email,
                     subject: "Your Cultivate email verification",
                     html: 'Thank you for joining Cultivate!' +  
                     '<br><br>' + 
-                    'Press <a href=https://cultivate-app-web-service/verify/${nothing}> here </a>' + 
+                    `Press <a href=https://cultivate-app-web-service/verify/${request.body.email}> here </a>` + 
                     ' to verify your email.' +
                     '<br><br>' +
                     'Best regards,' + 
@@ -155,7 +144,6 @@ router.post('/', (request, response, next) => {
                     'The Cultivate Team'
                 }
                 
-                // LETS GO
                 transporter.sendMail(options, function(err, info) {
                     if (err) {
                         console.log(err);
