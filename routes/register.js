@@ -129,8 +129,6 @@ router.post('/', (request, response, next) => {
                     console.log("Sent: " + info.response);
                 })*/
 
-                console.log("HERE");
-
                 const transporter = nodemailer.createTransport({
                     service: "hotmail",
                     auth: { // TODO: read user and pass from .env file
@@ -158,7 +156,6 @@ router.post('/', (request, response, next) => {
                 }
                 
                 transporter.sendMail(options, function(err, info) {
-                    console.log("IN TRANSPORTER");
                     if (err) {
                         console.log(err);
                         return;
