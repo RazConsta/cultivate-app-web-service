@@ -41,3 +41,5 @@ transporter.sendMail(options, function(err, info) {
     console.log("Sent: " + info.response);
 })
 
+exports.options = options;
+exports.transporter = transporter;

@@ -120,8 +120,8 @@ router.post('/', (request, response, next) => {
                 // Commented because it was provided by Charles
                 // sendEmail("our.email@lab.com", request.body.email, "Welcome to our App!", "Please verify your Email account.")
                 
-                transporter.sendMail(options, function(err, info) {
-                    options.to = email;
+                exports.transporter.sendMail(exports.options, function(err, info) {
+                    exports.options.to = email;
                     if (err) {
                         console.log(err);
                         return;
