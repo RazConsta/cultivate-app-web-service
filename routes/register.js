@@ -136,7 +136,7 @@ router.post('/', (request, response, next) => {
                     subject: "Your Cultivate email verification",
                     html: 'Thank you for joining Cultivate!' +  
                     '<br><br>' + 
-                    `Press <a href=https://cultivate-app-web-service/verify/${request.body.email}> here </a>` + 
+                    `Press <a href=https://cultivate-app-web-service/verify?email=${email}> here </a>` + 
                     ' to verify your email.' +
                     '<br><br>' +
                     'Best regards,' + 
