@@ -19,6 +19,8 @@ app.use(express.json())
  */
 app.use(middleware.jsonErrorInBody)
 
+
+app.use('/verify', require('./routes/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
 
