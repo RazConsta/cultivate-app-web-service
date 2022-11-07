@@ -15,6 +15,13 @@ const router = express.Router()
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
+/**
+ * @api {get} /verify Email verification.
+ * @apiName getVerify
+ * @apiGroup verify
+ * 
+ * ADD MORE
+ */
 router.get('/', (request, response) => {
     let firstQuery = 'SELECT * FROM members WHERE email = $1 AND verification = 0'
     let values = [request.query.email]
