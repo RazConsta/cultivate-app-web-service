@@ -15,8 +15,6 @@ const generateSalt = require('../utilities').generateSalt
 const nodemailer = require('nodemailer')
 const sendEmail = require('../utilities').sendEmail
 
-
-
 const router = express.Router()
 
 /**
@@ -121,8 +119,8 @@ router.post('/', (request, response, next) => {
                 const transporter = nodemailer.createTransport({
                     service: "hotmail",
                     auth: { // TODO: read user and pass from .env file
-                        user: process.env.EMAIL, //"cultivate-app@outlook.com",// TODO: read user and pass from .env file
-                        pass: process.env.PASSWORD// "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
+                        user: process.env.EMAIL, 
+                        pass: process.env.PASSWORD
                     },
                     // tls required to bypass "self signed certificate" error
                     tls: {
@@ -184,6 +182,5 @@ router.get('/hash_demo', (request, response) => {
         'unsalted_hash': unsalted_hash
     })
 })
-
 
 module.exports = router
