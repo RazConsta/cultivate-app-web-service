@@ -58,7 +58,7 @@ router.get('/success', (request, response) => {
     // response.sendFile(path.join(__dirname + '/verify-thanks.html'));
     // response.sendFile('https://site113379.nicepage.io/Home.html');
     async () => {
-        await open('https://site113379.nicepage.io/Home.html');
+        await open('https://cultivate-app.nicepage.io/Home.html');
     }
 });
 
