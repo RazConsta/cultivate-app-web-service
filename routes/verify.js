@@ -1,6 +1,7 @@
 const {response} = require('express')
 const {request} = require('express')
 const express = require('express')
+const open = require('open')
 
 //Access the connection to Heroku Database
 const pool = require('../utilities/exports').pool
@@ -55,7 +56,10 @@ router.get('/', (request, response) => {
 
 router.get('/success', (request, response) => {
     // response.sendFile(path.join(__dirname + '/verify-thanks.html'));
-    response.sendFile('https://site113379.nicepage.io/Home.html');
+    // response.sendFile('https://site113379.nicepage.io/Home.html');
+    async () => {
+        await open('https://site113379.nicepage.io/Home.html');
+    }
 });
 
 module.exports = router;
