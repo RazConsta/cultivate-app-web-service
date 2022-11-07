@@ -12,6 +12,7 @@ let isStringProvided = validation.isStringProvided
 const generateHash = require('../utilities').generateHash
 const generateSalt = require('../utilities').generateSalt
 
+const nodemailer = require('nodemailer')
 const sendEmail = require('../utilities').sendEmail
 
 
