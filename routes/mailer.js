@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const { eventNames } = require('npm');
 const router = express.Router();
 
-const transporter = nodemailer.createTransport({
+const mailTransporter = nodemailer.createTransport({
     service: "hotmail",
     auth: { // TODO: read user and pass from .env file
         user: "cultivate-app@outlook.com",
@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const options = {
+const mailOptions = {
     from: "cultivate-app@outlook.com",
     to: "razvanc@uw.edu",
     subject: "Your Cultivate email verification",
@@ -41,5 +41,9 @@ transporter.sendMail(options, function(err, info) {
     console.log("Sent: " + info.response);
 })
 
-exports.options = options;
-exports.transporter = transporter;
+/* exports.mailOptions = options;
+exports.mailTransporter = transporter; */
+
+module.exports = { 
+    mailOptions, mailTransporter
+}
