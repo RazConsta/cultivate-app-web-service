@@ -97,21 +97,28 @@ router.get('/', (request, response, next) => {
             //Did our salted hash match their salted hash?
             if (storedSaltedHash === providedSaltedHash ) {
                 //credentials match. get a new JWT
-                let token = jwt.sign(
-                    {
-                        "email": request.auth.email,
-                        "memberid": result.rows[0].memberid
-                    },
-                    config.secret,
-                    { 
-                        expiresIn: '14 days' // expires in 14 days
+                let loginCheck = 'SELECT verification FROM members WHERE email = $1';
+                let email = [request.auth.email];
+                pool.query(loginCheck, email)
+                .then(result => {
+                    if (result.rows[0].verification >= 1) {
+                        let token = jwt.sign(
+                            {
+                                "email": request.auth.email,
+                                "memberid": result.rows[0].memberid
+                            },
+                            config.secret,
+                            { 
+                                expiresIn: '14 days' // expires in 14 days
+                            }
+                        )
+                        //package and send the results
+                        response.json({
+                            success: true,
+                            message: 'Authentication successful!',
+                            token: token
+                        })
                     }
-                )
-                //package and send the results
-                response.json({
-                    success: true,
-                    message: 'Authentication successful!',
-                    token: token
                 })
             } else {
                 //credentials dod not match
