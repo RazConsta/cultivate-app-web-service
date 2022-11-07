@@ -121,8 +121,8 @@ router.post('/', (request, response, next) => {
                 const transporter = nodemailer.createTransport({
                     service: "hotmail",
                     auth: { // TODO: read user and pass from .env file
-                        user: "cultivate-app@outlook.com",// TODO: read user and pass from .env file
-                        pass: "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
+                        user: process.env.EMAIL, //"cultivate-app@outlook.com",// TODO: read user and pass from .env file
+                        pass: process.env.PASSWORD// "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
                     },
                     // tls required to bypass "self signed certificate" error
                     tls: {
