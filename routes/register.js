@@ -14,8 +14,8 @@ const generateSalt = require('../utilities').generateSalt
 
 const sendEmail = require('../utilities').sendEmail
 
-const {mailOptions} = require('mailOptions');
-const {mailTransporter} = require('mailTransporter')
+const {MAIL_OPTIONS} = require('mailOptions');
+const {MAIL_TRANSPORTER} = require('mailTransporter');
 
 const router = express.Router()
 
@@ -144,7 +144,7 @@ router.post('/', (request, response, next) => {
                 //     'The Cultivate Team'
                 // }
                 
-                mailTransporter.sendMail(mailOptions, function(err, info) {
+                MAIL_TRANSPORTER.sendMail(MAIL_OPTIONS, function(err, info) {
                     if (err) {
                         console.log(err);
                         return;
