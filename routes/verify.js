@@ -54,7 +54,8 @@ router.get('/', (request, response) => {
 })
 
 router.get('/success', (request, response) => {
-    response.sendFile(path.join(__dirname + '/verify-thanks.html'));
+    // response.sendFile(path.join(__dirname + '/verify-thanks.html'));
+    response.sendFile('https://site113379.nicepage.io/Home.html');
 });
 
 module.exports = router;
