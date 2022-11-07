@@ -14,8 +14,7 @@ const generateSalt = require('../utilities').generateSalt
 
 const sendEmail = require('../utilities').sendEmail
 
-const {MAIL_OPTIONS} = require('mailOptions');
-const {MAIL_TRANSPORTER} = require('mailTransporter');
+
 
 const router = express.Router()
 
@@ -118,33 +117,33 @@ router.post('/', (request, response, next) => {
                     email: request.body.email
                 })
 
-                // const transporter = nodemailer.createTransport({
-                //     service: "hotmail",
-                //     auth: { // TODO: read user and pass from .env file
-                //         user: "cultivate-app@outlook.com",// TODO: read user and pass from .env file
-                //         pass: "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
-                //     },
-                //     // tls required to bypass "self signed certificate" error
-                //     tls: {
-                //         rejectUnauthorized: false
-                //     }
-                // });
+                const transporter = nodemailer.createTransport({
+                    service: "hotmail",
+                    auth: { // TODO: read user and pass from .env file
+                        user: "cultivate-app@outlook.com",// TODO: read user and pass from .env file
+                        pass: "kfdsvj2354!@!!__fds"// TODO: read user and pass from .env file
+                    },
+                    // tls required to bypass "self signed certificate" error
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
                 
-                // const options = {
-                //     from: "cultivate-app@outlook.com",
-                //     to: "raz.consta@gmail.com", // request.body.email,
-                //     subject: "Your Cultivate email verification",
-                //     html: 'Thank you for joining Cultivate!' +  
-                //     '<br><br>' + 
-                //     `Press <a href=https://cultivate-app-web-service.herokuapp.com/verify?email=${request.body.email}>here</a>` + 
-                //     ' to verify your email.' +
-                //     '<br><br>' +
-                //     'Best regards,' + 
-                //     '<br>' +
-                //     'The Cultivate Team'
-                // }
+                const options = {
+                    from: "cultivate-app@outlook.com",
+                    to: "raz.consta@gmail.com", // request.body.email,
+                    subject: "Your Cultivate email verification",
+                    html: 'Thank you for joining Cultivate!' +  
+                    '<br><br>' + 
+                    `Press <a href=https://cultivate-app-web-service.herokuapp.com/verify?email=${request.body.email}>here</a>` + 
+                    ' to verify your email.' +
+                    '<br><br>' +
+                    'Best regards,' + 
+                    '<br>' +
+                    'The Cultivate Team'
+                }
                 
-                MAIL_TRANSPORTER.sendMail(MAIL_OPTIONS, function(err, info) {
+                transporter.sendMail(options, function(err, info) {
                     if (err) {
                         console.log(err);
                         return;
