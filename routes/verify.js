@@ -38,7 +38,7 @@ router.get('/', (request, response) => {
             let secondQuery = 'UPDATE members SET verification = 1 WHERE email = $1'
             pool.query(secondQuery, values) 
                 .then(result => {
-                    response.redirect('https://cultivate-app-web-service.herokuapp.com/verify/success')
+                    response.redirect('https://cultivate-app.nicepage.io/Home.html')
                 })
                 .catch(result => {
                     response.status(400).send({
