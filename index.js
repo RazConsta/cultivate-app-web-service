@@ -21,6 +21,7 @@ app.use(middleware.jsonErrorInBody)
 
 app.use('/sendResetVerify', require('./routes/sendResetVerify.js'))
 app.use('/resetVerify', require('./routes/resetVerify.js'))
+app.use('/resetPassword', require('./routes/resetPassword.js'))
 app.use('/verify', require('./routes/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
