@@ -63,7 +63,7 @@ router.post('/', (request, response, next) => {
         let values = [request.memberid, salted_hash, salt]
         pool.query(theQuery, values)
             .then(result => {
-                let secondQuery = "UPDATE credentials SET salt = $3 WHERE memberid = $1";
+                let secondQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
                 pool.query(secondQuery, values)
                     .then(result => {
                         //We successfully added the user!
