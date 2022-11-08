@@ -19,6 +19,7 @@ const router = express.Router()
 
 router.post('/', (request, response, next) => {
     const email = request.body.email
+    const password = request.body.password
     //Verify that the caller supplied all the parameters
     //In js, empty strings or null values evaluate to false
     if(isStringProvided(email) 
