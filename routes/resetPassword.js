@@ -38,14 +38,13 @@ router.post('/', (request, response, next) => {
                 let idQueryValue = [email]
                 pool.query(idQuery, idQueryValue)
                     .then(result => {
-                        request.memberid = result;
+                        request.memberid = result.rows[0];
                         next()
                     })
             })
             .catch((error) => {
                 response.status(400).send({
                     message: "Error in first UPDATE",
-                    result: result,
                     detail: error.detail
                 })
             })
