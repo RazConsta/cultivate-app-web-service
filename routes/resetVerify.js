@@ -24,7 +24,7 @@ router.use(bodyParser.json());
  * ADD MORE
  */
 router.get('/', (request, response) => {
-    let firstQuery = 'UPDATE members SET verification = 0 WHERE email = $1'
+    let firstQuery = 'UPDATE members SET verification = 2 WHERE email = $1'
     let values = [request.query.email]
     pool.query(firstQuery, values) 
         .then(result => {

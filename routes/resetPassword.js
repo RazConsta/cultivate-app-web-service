@@ -39,14 +39,14 @@ router.post('/', (request, response, next) => {
         
         //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
         //If you want to read more: https://stackoverflow.com/a/8265319
-        let theQuery = 'UPDATE members SET verification = 1 WHERE verification = 0 AND email = $1'
+        let theQuery = 'UPDATE members SET verification = 1 WHERE verification = 2 AND email = $1'
         let values = [email]
         pool.query(theQuery, values)
             .then(result => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
-                if (result == null) return;
+                if (result.rows[0].email != email) return;
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
