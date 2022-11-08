@@ -18,8 +18,8 @@ router.use(bodyParser.json());
 
 /**
  * @api {get} /resetVerify Email verification for chaning password.
- * @apiName getVerify
- * @apiGroup verify
+ * @apiName getResetVerify
+ * @apiGroup resetVerify
  * 
  * 
  */

@@ -19,8 +19,8 @@ const router = express.Router()
 
 /**
  * @api {post} /resetPassword Request to change the password
- * @apiName GetAuth
- * @apiGroup Auth
+ * @apiName PostResetPassword
+ * @apiGroup ResetPassword
  * 
  * @apiHeader {String} authorization "username:password" uses Basic Auth 
  * 
