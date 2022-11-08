@@ -58,37 +58,53 @@ router.post('/', (request, response, next) => {
         let salt = generateSalt(32)
         let salted_hash = generateHash(request.body.password, salt)
 
-
-        let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
+        let theQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
         let values = [request.memberid, salted_hash, salt]
         pool.query(theQuery, values)
             .then(result => {
-                let secondQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
-                pool.query(secondQuery, values)
-                    .then(result => {
-                        response.status(201).send({
-                            success: true,
-                            email: request.body.email
-                        })
-                        //We successfully added the user!
-                        response.status(201).send({
-                        success: true,
-                        email: request.body.email
-                        })
-                    .catch(result => {
-                        response.status(400).send({
-                            message: 'Error line 75',
-                            detail: error.detail
-                        })
-                    })
+                // successfully changed password
+                response.status(201).send({
+                    success: true,
+                    email: request.body.email
                 })
-            })
             .catch((error) => {
                 response.status(400).send({
-                    message: "Error line 66" + request.memberid,
+                    message: "error line 61",
                     detail: error.detail
                 })
-            })
+            });
+        });
+
+        // let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
+        // let values = [request.memberid, salted_hash, salt]
+        // pool.query(theQuery, values)
+        //     .then(result => {
+        //         let secondQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
+        //         pool.query(secondQuery, values)
+        //             .then(result => {
+        //                 response.status(201).send({
+        //                     success: true,
+        //                     email: request.body.email
+        //                 })
+        //                 //We successfully added the user!
+        //                 response.status(201).send({
+        //                 success: true,
+        //                 email: request.body.email
+        //                 })
+        //             .catch(result => {
+        //                 response.status(400).send({
+        //                     message: 'Error line 75',
+        //                     detail: error.detail
+        //                 })
+        //             })
+        //         })
+        //     })
+        //     .catch((error) => {
+        //         response.status(400).send({
+        //             message: "Error line 66" + request.memberid,
+        //             detail: error.detail
+        //         })
+        //     })
 })
 
 module.exports = router
