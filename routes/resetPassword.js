@@ -19,7 +19,6 @@ const router = express.Router()
 
 router.post('/', (request, response, next) => {
     const email = request.body.email
-    const password = request.body.password
     //Verify that the caller supplied all the parameters
     //In js, empty strings or null values evaluate to false
     if(isStringProvided(email) 
@@ -35,10 +34,9 @@ router.post('/', (request, response, next) => {
                 // request.memberid = q_res.rows[0].memberid
                 //next()
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
-                let idQueryValue = [email]
-                pool.query(idQuery, idQueryValue)
+                pool.query(idQuery, values)
                     .then(result => {
-                        request.memberid = result.rows[0];
+                        request.memberid = result.rows[0].memberid;
                         next()
                     })
                     .catch((error) => {
