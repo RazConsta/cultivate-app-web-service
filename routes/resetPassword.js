@@ -58,9 +58,22 @@ router.post('/', (request, response, next) => {
         let salt = generateSalt(32)
         let salted_hash = generateHash(request.body.password, salt)
 
-        let theQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
-        let values = [request.memberid, salted_hash, salt]
-        pool.query(theQuery, values)
+        let deleteQuery = "DELETE FROM credentials WHERE memberid=$1";
+        let deleteQueryValues = [request.memberid]
+        pool.query(deleteQuery, deleteQueryValues)
+            .then(result => {
+            })
+            .catch((error) => {
+                response.status(400).send({
+                    message: "error line 61",
+                    detail: error.detail
+                })
+            });
+        });
+
+        let insertQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
+        let insertValues = [request.memberid, salted_hash, salt]
+        pool.query(insertQuery, insertValues)
             .then(result => {
                 // successfully changed password
                 response.status(201).send({
@@ -69,11 +82,13 @@ router.post('/', (request, response, next) => {
                 })
             .catch((error) => {
                 response.status(400).send({
-                    message: "error line 61",
+                    message: "error line 73",
                     detail: error.detail
                 })
             });
         });
+
+        
 
         // let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
         // let values = [request.memberid, salted_hash, salt]
