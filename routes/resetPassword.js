@@ -17,7 +17,7 @@ const sendEmail = require('../utilities').sendEmail
 
 const router = express.Router()
 
-router.get('/', (request, response, next) => {
+router.post('/', (request, response, next) => {
     const email = request.body.email
     const password = request.body.password
     //Verify that the caller supplied all the parameters
@@ -29,10 +29,10 @@ router.get('/', (request, response, next) => {
         //If you want to read more: https://stackoverflow.com/a/8265319
         let theQuery = 'UPDATE members SET verification = 1 WHERE email = $1'
         let values = [email, password]
-        pool.query(theQuery, values)
+        pool.query(theQuery, values, (q_err, q_res))
             .then(result => {
                 //stash the memberid into the request object to be used in the next function
-                request.memberid = result.rows[0].memberid
+                request.memberid = q_res.rows[0].memberid
                 next()
             })
             .catch((error) => {
