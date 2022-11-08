@@ -46,7 +46,13 @@ router.post('/', (request, response, next) => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
-                if (result.rowCount == 0) return;
+                if (result.rowCount == 0) {
+                    response.status(400).send({
+                        message: "Verify your email before submitting the new password",
+                        detail: error.detail
+                    })
+                    return;
+                }
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
