@@ -45,6 +45,7 @@ router.post('/', (request, response, next) => {
             .catch((error) => {
                 response.status(400).send({
                     message: "Error in first UPDATE",
+                    result: result,
                     detail: error.detail
                 })
             })
