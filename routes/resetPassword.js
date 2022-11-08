@@ -46,7 +46,7 @@ router.post('/', (request, response, next) => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
-                console.log(result);
+                if (result.rowCount == 0) return;
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
