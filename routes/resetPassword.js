@@ -17,6 +17,18 @@ const sendEmail = require('../utilities').sendEmail
 
 const router = express.Router()
 
+/**
+ * @api {post} /resetPassword Request to change the password
+ * @apiName GetAuth
+ * @apiGroup Auth
+ * 
+ * @apiHeader {String} authorization "username:password" uses Basic Auth 
+ * 
+ * @apiSuccess {boolean} success true when the name is found and password matches
+ * @apiSuccess {String} message "Authentication successful!""
+ * @apiSuccess {String} token JSON Web Token
+ * 
+ */ 
 router.post('/', (request, response, next) => {
     const email = request.body.email
     const password = request.body.password
@@ -34,6 +46,7 @@ router.post('/', (request, response, next) => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
+                if (result == null) return;
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
@@ -54,7 +67,7 @@ router.post('/', (request, response, next) => {
                 })
             })
     } 
-    // DELETE CREDENTIALS AND ADD NEW ONES
+    // DELETE CREDENTIALS ROW AND ADD A NEW ROW
 }, (request, response) => {
         let salt = generateSalt(32)
         let salted_hash = generateHash(request.body.password, salt)
@@ -89,9 +102,7 @@ router.post('/', (request, response, next) => {
             });
 });
 
-    
-        
-
+        // COULD NOT GET IT TO WORK BY UPDATING THE CREDENTIALS ROW
         // let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
         // let values = [request.memberid, salted_hash, salt]
         // pool.query(theQuery, values)

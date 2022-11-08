@@ -17,6 +17,18 @@ const sendEmail = require('../utilities/exports').sendEmail
 
 const router = express.Router()
 
+/**
+ * @api {post} /sendResetVerify Request to send the email verification to change the password.
+ * @apiName GetAuth
+ * @apiGroup Auth
+ * 
+ * @apiHeader {String} authorization "username:password" uses Basic Auth 
+ * 
+ * @apiSuccess {boolean} success true when the name is found and password matches
+ * @apiSuccess {String} message "Authentication successful!""
+ * @apiSuccess {String} token JSON Web Token
+ * 
+ */ 
 router.post('/', (request, response) => {
     const email = request.body.email
     
