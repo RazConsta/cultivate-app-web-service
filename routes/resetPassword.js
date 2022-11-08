@@ -69,7 +69,6 @@ router.post('/', (request, response, next) => {
                     detail: error.detail
                 })
             });
-        });
 
         let insertQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
         let insertValues = [request.memberid, salted_hash, salt]
@@ -80,14 +79,16 @@ router.post('/', (request, response, next) => {
                     success: true,
                     email: request.body.email
                 })
+            })
             .catch((error) => {
                 response.status(400).send({
                     message: "error line 73",
                     detail: error.detail
                 })
             });
-        });
+});
 
+    
         
 
         // let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
@@ -120,6 +121,6 @@ router.post('/', (request, response, next) => {
         //             detail: error.detail
         //         })
         //     })
-})
+
 
 module.exports = router
