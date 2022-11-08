@@ -21,7 +21,7 @@ router.use(bodyParser.json());
  * @apiName getVerify
  * @apiGroup verify
  * 
- * ADD MORE
+ * 
  */
 router.get('/', (request, response) => {
     let firstQuery = 'UPDATE members SET verification = 2 WHERE email = $1'

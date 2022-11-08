@@ -21,7 +21,7 @@ router.use(bodyParser.json());
  * @apiName getVerify
  * @apiGroup verify
  * 
- * ADD MORE
+ * 
  */
 router.get('/', (request, response) => {
     let firstQuery = 'SELECT * FROM members WHERE email = $1 AND verification = 0'
