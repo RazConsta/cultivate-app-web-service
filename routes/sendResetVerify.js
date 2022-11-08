@@ -20,7 +20,7 @@ const router = express.Router()
 router.get('/', (request, response) => {
     const email = request.body.email
     
-    
+
     if(isStringProvided(email)) {
         
         //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
@@ -52,7 +52,7 @@ router.get('/', (request, response) => {
                     subject: "Your Cultivate email verification",
                     html: 'Thank you for joining Cultivate!' +  
                     '<br><br>' + 
-                    `Press <a href=https://cultivate-app-web-service.herokuapp.com/verifyReset?email=${request.body.email}>here</a>` + 
+                    `Press <a href=https://cultivate-app-web-service.herokuapp.com/resetVerify?email=${request.body.email}>here</a>` + 
                     ' to verify your email.' +
                     '<br><br>' +
                     'Best regards,' + 
