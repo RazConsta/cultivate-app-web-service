@@ -66,6 +66,10 @@ router.post('/', (request, response, next) => {
                 let secondQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
                 pool.query(secondQuery, values)
                     .then(result => {
+                        response.status(201).send({
+                            success: true,
+                            email: request.body.email
+                        })
                         //We successfully added the user!
                         response.status(201).send({
                         success: true,
