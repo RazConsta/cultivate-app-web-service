@@ -37,7 +37,7 @@ router.post('/', (request, response, next) => {
             })
             .catch((error) => {
                 response.status(400).send({
-                    message: "other error, see detail",
+                    message: "Error in first UPDATE",
                     detail: error.detail
                 })
             })
@@ -69,7 +69,7 @@ router.post('/', (request, response, next) => {
                         })
                     .catch(result => {
                         response.status(400).send({
-                            message: 'other error, see detail',
+                            message: 'Error in second UPDATE',
                             detail: error.detail
                         })
                     })
