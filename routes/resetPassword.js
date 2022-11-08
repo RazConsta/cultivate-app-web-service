@@ -29,11 +29,18 @@ router.post('/', (request, response, next) => {
         //If you want to read more: https://stackoverflow.com/a/8265319
         let theQuery = 'UPDATE members SET verification = 1 WHERE email = $1'
         let values = [email, password]
-        pool.query(theQuery, values, (q_err, q_res))
+        pool.query(theQuery, values)
             .then(result => {
                 //stash the memberid into the request object to be used in the next function
-                request.memberid = q_res.rows[0].memberid
-                next()
+                // request.memberid = q_res.rows[0].memberid
+                //next()
+                let idQuery = "SELECT memberid FROM members WHERE email=$1"
+                let idQueryValue = [email]
+                pool.query(idQuery, idQueryValue)
+                    .then(result => {
+                        request.memberid = result;
+                        next()
+                    })
             })
             .catch((error) => {
                 response.status(400).send({
