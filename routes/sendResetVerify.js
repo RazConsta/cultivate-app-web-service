@@ -20,6 +20,7 @@ const router = express.Router()
 router.get('/', (request, response) => {
     const email = request.body.email
     
+    
     if(isStringProvided(email)) {
         
         //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
