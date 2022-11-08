@@ -17,7 +17,7 @@ const sendEmail = require('../utilities/exports').sendEmail
 
 const router = express.Router()
 
-router.get('/', (request, response) => {
+router.post('/', (request, response) => {
     const email = request.body.email
     
 
