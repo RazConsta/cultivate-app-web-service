@@ -17,7 +17,7 @@ const sendEmail = require('../utilities').sendEmail
 
 const router = express.Router()
 
-router.post('/', (request, response, next) => {
+router.get('/', (request, response, next) => {
     const email = request.body.email
     const password = request.body.password
     //Verify that the caller supplied all the parameters
