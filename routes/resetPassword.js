@@ -46,7 +46,7 @@ router.post('/', (request, response, next) => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
-                if (result.rows[0].email != email) return;
+                if (result.rows[0].email != request.body.email) return;
                 let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
@@ -62,7 +62,7 @@ router.post('/', (request, response, next) => {
             })
             .catch((error) => {
                 response.status(400).send({
-                    message: "Error in first UPDATE",
+                    message: "Verify your email before submitting the new password",
                     detail: error.detail
                 })
             })
