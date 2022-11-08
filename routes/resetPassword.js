@@ -36,7 +36,10 @@ router.post('/', (request, response, next) => {
                 next()
             })
             .catch((error) => {
-                
+                response.status(400).send({
+                    message: "other error, see detail",
+                    detail: error.detail
+                })
             })
     } 
 }, (request, response) => {
