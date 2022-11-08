@@ -34,7 +34,7 @@ router.post('/', (request, response, next) => {
                 //stash the memberid into the request object to be used in the next function
                 // request.memberid = q_res.rows[0].memberid
                 //next()
-                let idQuery = 'SELET memberid FROM members WHERE email= $1'
+                let idQuery = 'SELECT memberid FROM members WHERE email= $1'
                 pool.query(idQuery, values)
                     .then(result => {
                         request.memberid = result.rows[0].memberid;
@@ -59,11 +59,11 @@ router.post('/', (request, response, next) => {
         let salted_hash = generateHash(request.body.password, salt)
 
 
-        let theQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
+        let theQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
         let values = [request.memberid, salted_hash, salt]
         pool.query(theQuery, values)
             .then(result => {
-                let secondQuery = 'UPDATE credentials SET salt = $3 WHERE memberid = $1';
+                let secondQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
                 pool.query(secondQuery, values)
                     .then(result => {
                         //We successfully added the user!
