@@ -41,6 +41,12 @@ router.post('/', (request, response, next) => {
                         request.memberid = result.rows[0];
                         next()
                     })
+                    .catch((error) => {
+                        response.status(400).send({
+                            message: "Error in memberid SELECT",
+                            detail: error.detail
+                        })
+                    })
             })
             .catch((error) => {
                 response.status(400).send({
