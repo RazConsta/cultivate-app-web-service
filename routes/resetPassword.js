@@ -82,10 +82,16 @@ router.post('/', (request, response, next) => {
                         })
                     .catch(result => {
                         response.status(400).send({
-                            message: 'Error in second UPDATE',
+                            message: 'Error line 75',
                             detail: error.detail
                         })
                     })
+                })
+            })
+            .catch((error) => {
+                response.status(400).send({
+                    message: "Error line 66",
+                    detail: error.detail
                 })
             })
 })
