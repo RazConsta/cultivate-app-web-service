@@ -55,22 +55,14 @@ router.post('/', (request, response, next) => {
             })
     } 
 }, (request, response) => {
-        //We're storing salted hashes to make our application more secure
-        //If you're interested as to what that is, and why we should use it
-        //watch this youtube video: https://www.youtube.com/watch?v=8ZtInClXe1Q
         let salt = generateSalt(32)
         let salted_hash = generateHash(request.body.password, salt)
 
-        //let theQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
-        let theQuery = "UPDATE credentials SET saltedhash = $2 WHERE memberid = $1";
+
+        let theQuery = 'UPDATE credentials SET saltedhash = $2 WHERE memberid = $1';
         let values = [request.memberid, salted_hash, salt]
         pool.query(theQuery, values)
             .then(result => {
-                //We successfully added the user!
-                response.status(201).send({
-                    success: true,
-                    email: request.body.email
-                })
                 let secondQuery = "UPDATE credentials SET salt = $3 WHERE memberid = $1";
                 pool.query(secondQuery, values)
                     .then(result => {
