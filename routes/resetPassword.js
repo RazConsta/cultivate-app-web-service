@@ -62,6 +62,7 @@ router.post('/', (request, response, next) => {
         let salted_hash = generateHash(request.body.password, salt)
 
         //let theQuery = "INSERT INTO CREDENTIALS(MemberId, SaltedHash, Salt) VALUES ($1, $2, $3)"
+        console.log(request.memberid);
         let theQuery = "UPDATE credentials SET saltedhash = $2 WHERE memberid = $1";
         let values = [request.memberid, salted_hash, salt]
         pool.query(theQuery, values)
