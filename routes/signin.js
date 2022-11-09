@@ -80,7 +80,7 @@ router.get('/', (request, response, next) => {
         .then(result => { 
             if (result.rowCount == 0) {
                 response.status(404).send({
-                    message: 'User not found' 
+                    message: 'Username does not exist' 
                 })
                 return
             }
@@ -121,9 +121,9 @@ router.get('/', (request, response, next) => {
                     }
                 })
             } else {
-                //credentials dod not match
+                //credentials do not match
                 response.status(400).send({
-                    message: 'Credentials did not match' 
+                    message: 'Password is invalid' 
                 })
             }
         })
