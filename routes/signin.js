@@ -123,7 +123,7 @@ router.get('/', (request, response, next) => {
             } else {
                 //credentials do not match
                 response.status(400).send({
-                    message: 'Password is invalid' 
+                    message: 'Invalid password' 
                 })
             }
         })
