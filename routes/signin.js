@@ -42,6 +42,8 @@ const config = {
  * 
  * @apiError (404: User Not Found) {String} message "User not found"
  * 
+ * @apiError (405: Unverified Email) {String} message "Unverified Email"
+ * 
  * @apiError (400: Invalid Credentials) {String} message "Credentials did not match"
  * 
  */ 
@@ -85,6 +87,7 @@ router.get('/', (request, response, next) => {
                 return
             }
 
+
             //Retrieve the salt used to create the salted-hash provided from the DB
             let salt = result.rows[0].salt
             
@@ -118,13 +121,27 @@ router.get('/', (request, response, next) => {
                             message: 'Authentication successful!',
                             token: token
                         })
-                    }
+                    } 
                 })
             } else {
-                //credentials do not match
-                response.status(400).send({
-                    message: 'Invalid password' 
+
+                //Check if email is verified
+                let emailVerifyCheck = 'SELECT verification FROM members WHERE email = $1';
+                let email = [request.auth.email];
+                pool.query(emailVerifyCheck, email)
+                .then(result => {
+                    if (result.rows[0].verification == 0) {
+                        response.status(405).send({
+                            message: 'Email is unverified' 
+                        })
+                    } else {
+                        //credentials do not match
+                        response.status(400).send({
+                            message: 'Invalid password' 
+                        })
+                    } 
                 })
+
             }
         })
         .catch((err) => {

@@ -17,7 +17,7 @@ const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
 /**
- * @api {get} /resetVerify Email verification for chaning password.
+ * @api {get} /resetVerify Email verification for changing password.
  * @apiName getResetVerify
  * @apiGroup resetVerify
  * 
