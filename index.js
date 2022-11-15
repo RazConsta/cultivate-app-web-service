@@ -26,6 +26,8 @@ app.use('/verify', require('./routes/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
 
+app.use('/weather', require('./routes/weather/getWeather.js'))
+
 
 /*
  * Return HTML for the / end point. 

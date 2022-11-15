@@ -1,123 +1,27 @@
-// //express is the framework we're going to use to handle requests
-// const weatherApi = {
-//     key: '7feef82f33ada5fa579adcdac7155beb',
-//     base: 'https://api.openweathermap.org/data/2.5/',
-//   } 
-  
-//   function App() {
-//     const [query, setQuery] = useState('');
-//     const [weather, setWeather] = useState({});
-  
-//     const search = evt => {
-//       if (evt.key === "Enter"){
-//         fetch(`${weatherApi.base}weather?q=${query}&units=imperial&APPID=${weatherApi.key}`)
-//         .then(res => res.json())
-//         .then(result => {
-//           setWeather(result);
-//           setQuery('');
-//           console.log(result);
-//         });
-//       }
-//     }
+const fetch = (...args) =>
+	import('node-fetch').then(({default: fetch}) => fetch(...args));
+const express = require('express')
+const router = express.Router()
+require('dotenv').config()
 
 
+async function getWeather() {
+    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=47.11&lon=-122.11&units=imperial&appid=' + process.env.WEATHER_API_KEY
+    const request = await fetch(WEATHER_API_URL);
+    const data = request.json();
+    //console.log(data);
+    return data;
+}
 
-// router.get('/', (request, response, next) => {
-//     if (isStringProvided(request.headers.authorization) && request.headers.authorization.startsWith('Basic ')) {
-//         next()
-//     } else {
-//         response.status(400).json({ message: 'Missing Authorization Header' })
-//     }
-// }, (request, response, next) => {
-//     // obtain auth credentials from HTTP Header
-//     const base64Credentials =  request.headers.authorization.split(' ')[1]
-    
-//     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii')
+router.get('/', async (request, response) => {
+    try {
+        const weather = await getWeather();
+        
+        response.json(weather)[0]
+        //response.status(200).send(weather);
+    } catch (err) {
+        response.status(400).send("Could not retrieve weather info")
+    }
+})
 
-//     const [email, password] = credentials.split(':')
-
-//     if (isStringProvided(email) && isStringProvided(password)) {
-//         request.auth = { 
-//             "email" : email,
-//             "password" : password
-//         }
-//         next()
-//     } else {
-//         response.status(400).send({
-//             message: "Malformed Authorization Header"
-//         })
-//     }
-// }, (request, response) => {
-//     const theQuery = `SELECT saltedhash, salt, Credentials.memberid FROM Credentials
-//                       INNER JOIN Members ON
-//                       Credentials.memberid=Members.memberid 
-//                       WHERE Members.email=$1`
-//     const values = [request.auth.email]
-//     pool.query(theQuery, values)
-//         .then(result => { 
-//             if (result.rowCount == 0) {
-//                 response.status(404).send({
-//                     message: 'Username does not exist' 
-//                 })
-//                 return
-//             }
-
-//             //Retrieve the salt used to create the salted-hash provided from the DB
-//             let salt = result.rows[0].salt
-            
-//             //Retrieve the salted-hash password provided from the DB
-//             let storedSaltedHash = result.rows[0].saltedhash 
-
-//             //Generate a hash based on the stored salt and the provided password
-//             let providedSaltedHash = generateHash(request.auth.password, salt)
-
-//             //Did our salted hash match their salted hash?
-//             if (storedSaltedHash === providedSaltedHash ) {
-//                 //credentials match. get a new JWT
-//                 let loginCheck = 'SELECT verification FROM members WHERE email = $1';
-//                 let email = [request.auth.email];
-//                 pool.query(loginCheck, email)
-//                 .then(result => {
-//                     if (result.rows[0].verification >= 1) {
-//                         let token = jwt.sign(
-//                             {
-//                                 "email": request.auth.email,
-//                                 "memberid": result.rows[0].memberid
-//                             },
-//                             config.secret,
-//                             { 
-//                                 expiresIn: '14 days' // expires in 14 days
-//                             }
-//                         )
-//                         //package and send the results
-//                         response.json({
-//                             success: true,
-//                             message: 'Authentication successful!',
-//                             token: token
-//                         })
-//                     } else {
-//                         response.status(401).send({
-//                             message: 'Email is unverified' 
-//                         })
-//                     }
-//                 })
-//             } else {
-//                 //credentials do not match
-//                 response.status(400).send({
-//                     message: 'Invalid password' 
-//                 })
-//             }
-//         })
-//         .catch((err) => {
-//             //log the error
-//             console.log("Error on SELECT************************")
-//             console.log(err)
-//             console.log("************************")
-//             console.log(err.stack)
-//             response.status(400).send({
-//                 message: err.detail
-//             })
-//         })
-// })
-
-// module.exports = router
+module.exports = router
