@@ -27,7 +27,9 @@ app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
 
 app.use('/weather', require('./routes/weather/getWeather.js'))
-
+app.use('/messages', middleware.checkToken, require('./routes/messages.js')) // Create and Retrieve Chat Messages
+app.use('/chats', middleware.checkToken, require('./routes/chats.js')) // Create and Retrieve Chat Rooms
+app.use('/authPushy', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
 
 /*
  * Return HTML for the / end point. 
