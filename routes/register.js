@@ -31,6 +31,7 @@ const router = express.Router()
  * 
  * @apiParamExample {json} Request-Body-Example:
  *  {
+ *      "nickname":"Charles",
  *      "first":"Charles",
  *      "last":"Bryan",
  *      "email":"cfb3@fake.email",
@@ -53,6 +54,7 @@ const router = express.Router()
 router.post('/', (request, response, next) => {
 
     //Retrieve data from query params
+    const nickname = request.body.nickname
     const first = request.body.first
     const last = request.body.last
     const username = isStringProvided(request.body.username) ?  request.body.username : request.body.email
@@ -60,7 +62,8 @@ router.post('/', (request, response, next) => {
     const password = request.body.password
     //Verify that the caller supplied all the parameters
     //In js, empty strings or null values evaluate to false
-    if(isStringProvided(first) 
+    if(isStringProvided(nickname) 
+        && isStringProvided(first) 
         && isStringProvided(last) 
         && isStringProvided(username) 
         && isStringProvided(email) 
@@ -68,8 +71,8 @@ router.post('/', (request, response, next) => {
         
         //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
         //If you want to read more: https://stackoverflow.com/a/8265319
-        let theQuery = "INSERT INTO MEMBERS(FirstName, LastName, Username, Email) VALUES ($1, $2, $3, $4) RETURNING Email, MemberID"
-        let values = [first, last, username, email]
+        let theQuery = "INSERT INTO MEMBERS(NickName, FirstName, LastName, Username, Email) VALUES ($1, $2, $3, $4, $5) RETURNING Email, MemberID"
+        let values = [nickname, first, last, username, email]
         pool.query(theQuery, values)
             .then(result => {
                 //stash the memberid into the request object to be used in the next function
