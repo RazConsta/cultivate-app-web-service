@@ -17,9 +17,9 @@ WHERE Email='test1@test.com';
 
 --Add the User test1  (password is: test12345)
 INSERT INTO 
-    Members(FirstName, LastName, Username, Email)
+    Members(FirstName, LastName, Username, Email, Verification)
 VALUES
-    ('test1First', 'test1Last', 'test1', 'test1@test.com');
+    ('test1First', 'test1Last', 'test1', 'test1@test.com', 1);
 INSERT INTO 
     Credentials(MemberID, SaltedHash, Salt)
 VALUES
@@ -35,9 +35,9 @@ WHERE Email='test2@test.com';
 
 --Add the User test2  (password is: test12345)
 INSERT INTO 
-    Members(FirstName, LastName, Username, Email)
+    Members(FirstName, LastName, Username, Email, Verification)
 VALUES
-    ('test2First', 'test2Last', 'test2', 'test2@test.com');
+    ('test2First', 'test2Last', 'test2', 'test2@test.com', 1);
 INSERT INTO 
     Credentials(MemberID, SaltedHash, Salt)
 VALUES
@@ -53,9 +53,9 @@ WHERE Email='test3@test.com';
 
 --Add the User test3 (password is: test12345)
 INSERT INTO 
-    Members(FirstName, LastName, Username, Email)
+    Members(FirstName, LastName, Username, Email, Verification)
 VALUES
-    ('test3First', 'test3Last', 'test3', 'test3@test.com');
+    ('test3First', 'test3Last', 'test3', 'test3@test.com', 1);
 INSERT INTO 
     Credentials(MemberID, SaltedHash, Salt)
 VALUES
