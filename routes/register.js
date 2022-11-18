@@ -22,6 +22,7 @@ const router = express.Router()
  * @apiName PostAuth
  * @apiGroup Auth
  * 
+ * @apiParam {String} nickname a users nick name
  * @apiParam {String} first a users first name
  * @apiParam {String} last a users last name
  * @apiParam {String} email a users email *unique
