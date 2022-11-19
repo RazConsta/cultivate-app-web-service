@@ -19,17 +19,22 @@ app.use(express.json())
  */
 app.use(middleware.jsonErrorInBody)
 
-app.use('/sendResetVerify', require('./routes/sendResetVerify.js'))
-app.use('/resetVerify', require('./routes/resetVerify.js'))
-app.use('/resetPassword', require('./routes/resetPassword.js'))
-app.use('/verify', require('./routes/verify.js')) // GET Request to verify email
+app.use('/sendResetVerify', require('./routes/email_verif/sendResetVerify.js'))
+app.use('/resetVerify', require('./routes/email_verif/resetVerify.js'))
+app.use('/changePassword', require('./routes/password/changePassword.js'))
+app.use('/resetPassword', require('./routes/password/resetPassword.js'))
+app.use('/changeNickname', require('./routes/changeNickname.js'))
+app.use('/getNickname', require('./routes/getNickname.js'))
+app.use('/verify', require('./routes/email_verif/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
+app.use('/friendsList',require("./routes/friendsList.js"))
 
 // app.use('/weather', require('./routes/weather/getWeather.js'))
 app.use('/messages', middleware.checkToken, require('./routes/messages.js')) // Create and Retrieve Chat Messages
 app.use('/chats', middleware.checkToken, require('./routes/chat.js')) // Create and Retrieve Chat Rooms
 app.use('/authPushy', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
+
 
 /*
  * Return HTML for the / end point. 

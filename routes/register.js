@@ -54,25 +54,23 @@ const router = express.Router()
 router.post('/', (request, response, next) => {
 
     //Retrieve data from query params
-    const nickname = request.body.nickname
     const first = request.body.first
     const last = request.body.last
-    const username = isStringProvided(request.body.username) ?  request.body.username : request.body.email
+    const nickname = first + " " + last;
     const email = request.body.email
     const password = request.body.password
     //Verify that the caller supplied all the parameters
     //In js, empty strings or null values evaluate to false
-    if(isStringProvided(nickname) 
-        && isStringProvided(first) 
+    if(isStringProvided(first) 
         && isStringProvided(last) 
-        && isStringProvided(username) 
+        && isStringProvided(nickname) 
         && isStringProvided(email) 
         && isStringProvided(password)) {
         
         //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
         //If you want to read more: https://stackoverflow.com/a/8265319
-        let theQuery = "INSERT INTO MEMBERS(NickName, FirstName, LastName, Username, Email) VALUES ($1, $2, $3, $4, $5) RETURNING Email, MemberID"
-        let values = [nickname, first, last, username, email]
+        let theQuery = "INSERT INTO MEMBERS(FirstName, LastName, Nickname, Email) VALUES ($1, $2, $3, $4) RETURNING Email, MemberID"
+        let values = [first, last, nickname, email]
         pool.query(theQuery, values)
             .then(result => {
                 //stash the memberid into the request object to be used in the next function
@@ -83,11 +81,13 @@ router.post('/', (request, response, next) => {
                 //log the error  for debugging
                 // console.log("Member insert")
                 // console.log(error)
-                if (error.constraint == "members_username_key") {
+
+                // COMMENTED OUT AFTER NICKNAME Implementation
+                /* if (error.constraint == "members_username_key") {
                     response.status(400).send({
                         message: "Username exists"
-                    })
-                } else if (error.constraint == "members_email_key") {
+                    }) */ 
+                if (error.constraint == "members_email_key") {
                     response.status(400).send({
                         message: "Email exists"
                     })

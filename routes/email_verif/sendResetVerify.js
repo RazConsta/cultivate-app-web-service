@@ -4,16 +4,16 @@ const { request } = require('express')
 const express = require('express')
 
 //Access the connection to Heroku Database
-const pool = require('../utilities/exports').pool
+const pool = require('../../utilities/exports').pool
 
-const validation = require('../utilities/exports').validation
+const validation = require('../../utilities/exports').validation
 let isStringProvided = validation.isStringProvided
 
-const generateHash = require('../utilities/exports').generateHash
-const generateSalt = require('../utilities/exports').generateSalt
+const generateHash = require('../../utilities/exports').generateHash
+const generateSalt = require('../../utilities/exports').generateSalt
 
 const nodemailer = require('nodemailer')
-const sendEmail = require('../utilities/exports').sendEmail
+const sendEmail = require('../../utilities/exports').sendEmail
 
 const router = express.Router()
 
