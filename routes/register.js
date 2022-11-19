@@ -81,11 +81,13 @@ router.post('/', (request, response, next) => {
                 //log the error  for debugging
                 // console.log("Member insert")
                 // console.log(error)
-                if (error.constraint == "members_username_key") {
+
+                // COMMENTED OUT AFTER NICKNAME Implementation
+                /* if (error.constraint == "members_username_key") {
                     response.status(400).send({
                         message: "Username exists"
-                    })
-                } else if (error.constraint == "members_email_key") {
+                    }) */ 
+                if (error.constraint == "members_email_key") {
                     response.status(400).send({
                         message: "Email exists"
                     })
