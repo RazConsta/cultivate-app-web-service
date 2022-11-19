@@ -4,7 +4,7 @@ const { request } = require('express')
 const express = require('express')
 
 //Access the connection to Heroku Database
-const pool = require('../../utilities/exports').pool
+const pool = require('../utilities/exports').pool
 
 const validation = require('../../utilities/exports').validation
 let isStringProvided = validation.isStringProvided
@@ -23,9 +23,6 @@ const router = express.Router()
  * @apiSuccess {String} token JSON Web Token
  * 
  */ 
-// 1) Use email to find memberid
-// 2) Check old password
-// 3) Update new password
 router.post('/', (request, response) => {
     const email = request.body.email;
     const newNickname = request.body.newNickname;
@@ -44,7 +41,6 @@ router.post('/', (request, response) => {
                 })
             })
     } 
-    // DELETE CREDENTIALS ROW AND ADD A NEW ROW
 })
 
 module.exports = router
