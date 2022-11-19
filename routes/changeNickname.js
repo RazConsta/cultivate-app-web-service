@@ -32,7 +32,11 @@ router.post('/', (request, response) => {
        && isStringProvided(newNickname)) {
         pool.query('UPDATE members SET nickname = $1 WHERE email= $2', [newNickname, email])
             .then(result => {
-                
+                response.status(201).send({
+                    success: true,
+                    email: request.body.email,
+                    message: "updated nickname"
+                })
             })
             .catch((error) => {
                 response.status(400).send({
