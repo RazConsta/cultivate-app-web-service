@@ -16,7 +16,7 @@ router.get('/', async (request, response) => {
     if(isStringProvided(email)) 
     pool.query('SELECT nickname FROM members WHERE email= $1', [email])
         .then((result) => {
-            result.email = request.rows[0].nickname;
+            response.json({nickname: result.rows[0].nickname})
         })
         .catch((error) => {
             console.error(error);
