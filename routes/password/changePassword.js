@@ -41,39 +41,41 @@ router.post('/', (request, response, next) => {
     if(isStringProvided(oldPassword) 
         && isStringProvided(newPassword)
         && isStringProvided(email)) {
-        
-
-
-
-
-        //We're using placeholders ($1, $2, $3) in the SQL query string to avoid SQL Injection
-        //If you want to read more: https://stackoverflow.com/a/8265319
-        let theQuery = 'UPDATE members SET verification = 1 WHERE verification = 2 AND email = $1'
-        let values = [email]
-        pool.query(theQuery, values)
+        pool.query('SELECT memberid FROM members WHERE email= $1', [email])
             .then(result => {
-                //stash the memberid into the request object to be used in the next function
-                // request.memberid = q_res.rows[0].memberid
-                //next()
-                if (result.rowCount == 0) {
-                    response.status(400).send({
-                        message: "Verify your email before submitting the new password",
-                        detail: error.detail
-                    })
-                    return;
-                }
-                let idQuery = 'SELECT memberid FROM members WHERE email= $1'
-                pool.query(idQuery, values)
+                request.memberid = result.rows[0].memberid;
+                // Check old password
+                const checkQuery = `SELECT saltedhash, salt, Credentials.memberid FROM Credentials
+                      INNER JOIN Members ON
+                      Credentials.memberid=Members.memberid 
+                      WHERE Members.email=$1`
+                pool.query(checkQuery, [email])
                     .then(result => {
-                        request.memberid = result.rows[0].memberid;
-                        next()
+                        //Retrieve the salt used to create the salted-hash provided from the DB
+                        let salt = result.rows[0].salt
+            
+                        //Retrieve the salted-hash password provided from the DB
+                        let storedSaltedHash = result.rows[0].saltedhash 
+
+                        //Generate a hash based on the stored salt and the provided password
+                        let providedSaltedHash = generateHash(oldPassword, salt)
+
+                        if (storedSaltedHash === providedSaltedHash) {
+                            next();
+                        } 
                     })
                     .catch((error) => {
                         response.status(400).send({
-                            message: "Error in memberid SELECT",
+                            message: "Error in old password check",
                             detail: error.detail
                         })
                     })
+            })
+            .catch((error) => {
+                response.status(400).send({
+                    message: "Error in memberid SELECT",
+                    detail: error.detail
+                })
             })
     } 
     // DELETE CREDENTIALS ROW AND ADD A NEW ROW
@@ -105,7 +107,7 @@ router.post('/', (request, response, next) => {
             })
             .catch((error) => {
                 response.status(400).send({
-                    message: "error line 73",
+                    message: "error @ new pass insert",
                     detail: error.detail
                 })
             });
