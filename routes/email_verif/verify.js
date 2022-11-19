@@ -4,7 +4,7 @@ const express = require('express')
 const open = require('open')
 
 //Access the connection to Heroku Database
-const pool = require('../utilities/exports').pool
+const pool = require('../../utilities/exports').pool
 
 const jwt = require('jsonwebtoken');
 const config = {
@@ -23,8 +23,6 @@ router.use(bodyParser.json());
  * 
  * 
  */
-
-
 router.get('/', (request, response) => {
     let firstQuery = 'SELECT * FROM members WHERE email = $1 AND verification = 0'
     let values = [request.query.email]

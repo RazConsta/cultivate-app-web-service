@@ -19,10 +19,12 @@ app.use(express.json())
  */
 app.use(middleware.jsonErrorInBody)
 
-app.use('/sendResetVerify', require('./routes/sendResetVerify.js'))
-app.use('/resetVerify', require('./routes/resetVerify.js'))
-app.use('/resetPassword', require('./routes/resetPassword.js'))
-app.use('/verify', require('./routes/verify.js')) // GET Request to verify email
+app.use('/sendResetVerify', require('./routes/email_verif/sendResetVerify.js'))
+app.use('/resetVerify', require('./routes/email_verif/resetVerify.js'))
+app.use('/changePassword', require('./routes/password/changePassword.js'))
+app.use('/resetPassword', require('./routes/password/resetPassword.js'))
+app.use('/changeNickname', require('./routes/changeNickname.js'))
+app.use('/verify', require('./routes/email_verif/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
 
