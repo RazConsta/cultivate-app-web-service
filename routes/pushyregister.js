@@ -62,7 +62,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
             }
         }).catch(error => {
             response.status(400).send({
-                message: "SQL Error sss" + values,
+                message: "SQL Error 1" + values,
                 error: error
             })
         })
@@ -82,7 +82,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
             })
         }).catch(err => {
             response.status(400).send({
-                message: "SQL Error",
+                message: "SQL Error 2",
                 error: err
             })
         })
