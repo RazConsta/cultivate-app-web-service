@@ -45,7 +45,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
     //validate email exists
     let query = 'SELECT * FROM Members WHERE MemberId=$1'
     // let values = [memberid]
-    let values = [70]
+    // let values = [70]
 
     pool.query(query, values)
         .then(result => {
@@ -74,7 +74,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
                   VALUES ($1, $2)
                   ON CONFLICT (MemberId) DO UPDATE SET token=$2
                   RETURNING *`
-    let values = [request.decoded.memberid, request.body.token]
+    let values = [70, request.body.token]
     pool.query(insert, values)
         .then(result => {
             response.send({
