@@ -44,8 +44,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
 
     //validate email exists
     let query = 'SELECT * FROM Members WHERE MemberId=$1'
-    // let values = [memberid]
-    // let values = [70]
+    let values = [memberid]
 
     pool.query(query, values)
         .then(result => {
@@ -54,7 +53,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
                 //JWT created by this service. But, keep the check here
                 //anyway.
                 response.status(404).send({
-                    message: "user not found" +'"' + request.body.token + '"' + values + 'asss'
+                    message: "user not found" +'" ' + request.body.token + ' "a' + values + 'a'
                 })
             } else {
                 //user found
@@ -62,7 +61,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
             }
         }).catch(error => {
             response.status(400).send({
-                message: "SQL Error 1" + values,
+                message: "SQL Error 1",
                 error: error
             })
         })
@@ -74,7 +73,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
                   VALUES ($1, $2)
                   ON CONFLICT (MemberId) DO UPDATE SET token=$2
                   RETURNING *`
-    let values = [70, request.body.token]
+    let values = [request.decoded.memberid, request.body.token]
     pool.query(insert, values)
         .then(result => {
             response.send({
