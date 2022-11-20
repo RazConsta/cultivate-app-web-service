@@ -45,6 +45,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
     //validate email exists
     let query = 'SELECT * FROM Members WHERE MemberId=$1'
     let values = [memberid]
+    console.log(values)
 
     pool.query(query, values)
         .then(result => {
