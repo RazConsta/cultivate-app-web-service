@@ -48,7 +48,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
 
     pool.query(query, values)
         .then(result => {
-            if (result.rowCount == 0) {
+            if (result.rowCount > 0) {
                 //this should NOT happen. The memberid is coming from a 
                 //JWT created by this service. But, keep the check here
                 //anyway.
