@@ -45,7 +45,6 @@ router.put('/', middleware.checkToken, (request, response, next) => {
     //validate email exists
     let query = 'SELECT * FROM Members WHERE MemberId=$1'
     let values = [memberid]
-    console.log(values)
 
     pool.query(query, values)
         .then(result => {
@@ -54,7 +53,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
                 //JWT created by this service. But, keep the check here
                 //anyway.
                 response.status(404).send({
-                    message: "user not found"
+                    message: "user not found" + values
                 })
             } else {
                 //user found
