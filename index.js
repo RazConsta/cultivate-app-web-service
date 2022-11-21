@@ -33,7 +33,7 @@ app.use('/friendsList',require("./routes/friendsList.js"))
 // app.use('/weather', require('./routes/weather/getWeather.js'))
 app.use('/messages', middleware.checkToken, require('./routes/messages.js')) // Create and Retrieve Chat Messages
 app.use('/chats', middleware.checkToken, require('./routes/chat.js')) // Create and Retrieve Chat Rooms
-app.use('/authPushy', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
+app.use('/auth', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
 
 
 /*
