@@ -103,7 +103,6 @@ router.get('/', (request, response, next) => {
                 let loginCheck = 'SELECT firstname, lastname, username, memberid, verification FROM members WHERE email = $1'
                 let email = [request.auth.email]
                 pool.query(loginCheck, email).then(result => {
-                    if (result.rows[0].verification >= 1) {
                         let token = jwt.sign({
                             "first": result.rows[0].firstname,
                             "last": result.rows[0].lastname,
@@ -118,7 +117,6 @@ router.get('/', (request, response, next) => {
                             message: 'Authentication successful!',
                             token: token
                         })
-                    }
                 })
             } else {
 
