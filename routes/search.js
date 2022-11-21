@@ -40,9 +40,9 @@ const router = express.Router();
     jwt.checkToken,
     (request, response) => {
         // Search for User
-        let query = `SELECT DISTINCT FirstName, LastName, Nickname, MemberId as id, Email 
-        FROM Members FULL JOIN Contacts ON Members.MemberId = Contacts.MemberId_A 
-        WHERE Nickname ILIKE $1 AND Members.MemberID != $2`
+        let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
+        FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
+        WHERE nickname ILIKE $1 AND members.memberiD != $2`
         let values = [request.params.searched+'%', request.decoded.memberid];
 
         pool.query(query, values)
@@ -99,7 +99,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by Email
-        let query = `SELECT FirstName, LastName, Nickname FROM Members WHERE Email=$1`;
+        let query = `SELECT firstname, lastname, nickname FROM members WHERE email=$1`;
         let values = [request.params.email];
 
         pool.query(query, values)
@@ -155,7 +155,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by Nickname
-        let query = `SELECT FirstName, LastName, Email FROM Members WHERE Nickname=$1`;
+        let query = `SELECT firstname, lastname, email FROM members WHERE nickname=$1`;
         let values = [request.params.nickname];
 
         pool.query(query, values)
@@ -211,7 +211,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by First and Last
-        let query = `SELECT Email, Nickname FROM Members WHERE FirstName=$1 AND LastName=$2`;
+        let query = `SELECT email, nickname FROM members WHERE firstname=$1 AND lastname=$2`;
         let values = [request.params.first, request.params.last];
 
         pool.query(query, values)
