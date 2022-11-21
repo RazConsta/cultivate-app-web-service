@@ -46,7 +46,7 @@ const config = {
  * 
  * @apiError (400: Invalid Credentials) {String} message "Credentials did not match"
  * 
- */
+ */ 
 router.get('/', (request, response, next) => {
     if (isStringProvided(request.headers.authorization) && request.headers.authorization.startsWith('Basic ')) {
         next()
@@ -55,16 +55,16 @@ router.get('/', (request, response, next) => {
     }
 }, (request, response, next) => {
     // obtain auth credentials from HTTP Header
-    const base64Credentials = request.headers.authorization.split(' ')[1]
-
+    const base64Credentials =  request.headers.authorization.split(' ')[1]
+    
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii')
 
     const [email, password] = credentials.split(':')
 
     if (isStringProvided(email) && isStringProvided(password)) {
-        request.auth = {
-            "email": email,
-            "password": password
+        request.auth = { 
+            "email" : email,
+            "password" : password
         }
         next()
     } else {
@@ -79,10 +79,10 @@ router.get('/', (request, response, next) => {
                       WHERE Members.email=$1`
     const values = [request.auth.email]
     pool.query(theQuery, values)
-        .then(result => {
+        .then(result => { 
             if (result.rowCount == 0) {
                 response.status(404).send({
-                    message: 'Username does not exist'
+                    message: 'Username does not exist' 
                 })
                 return
             }
@@ -90,33 +90,38 @@ router.get('/', (request, response, next) => {
 
             //Retrieve the salt used to create the salted-hash provided from the DB
             let salt = result.rows[0].salt
-
+            
             //Retrieve the salted-hash password provided from the DB
-            let storedSaltedHash = result.rows[0].saltedhash
+            let storedSaltedHash = result.rows[0].saltedhash 
 
             //Generate a hash based on the stored salt and the provided password
             let providedSaltedHash = generateHash(request.auth.password, salt)
 
             //Did our salted hash match their salted hash?
-            if (storedSaltedHash === providedSaltedHash) {
+            if (storedSaltedHash === providedSaltedHash ) {
                 //credentials match. get a new JWT
-                let loginCheck = 'SELECT firstname, lastname, username, memberid, verification FROM members WHERE email = $1'
-                let email = [request.auth.email]
-                pool.query(loginCheck, email).then(result => {
-                        let token = jwt.sign({
-                            "first": result.rows[0].firstname,
-                            "last": result.rows[0].lastname,
-                            "username": result.rows[0].username,
-                            "email": request.auth.email,
-                            "memberid": result.rows[0].memberid
-                        }, config.secret, {
-                            expiresIn: '14 days' // expires in 14 days
-                        })
+                let loginCheck = 'SELECT verification FROM members WHERE email = $1';
+                let email = [request.auth.email];
+                pool.query(loginCheck, email)
+                .then(result => {
+                    if (result.rows[0].verification >= 1) {
+                        let token = jwt.sign(
+                            {
+                                "email": request.auth.email,
+                                "memberid": result.rows[0].memberid
+                            },
+                            config.secret,
+                            { 
+                                expiresIn: '14 days' // expires in 14 days
+                            }
+                        )
+                        //package and send the results
                         response.json({
                             success: true,
                             message: 'Authentication successful!',
                             token: token
                         })
+                    } 
                 })
             } else {
 
@@ -124,18 +129,18 @@ router.get('/', (request, response, next) => {
                 let emailVerifyCheck = 'SELECT verification FROM members WHERE email = $1';
                 let email = [request.auth.email];
                 pool.query(emailVerifyCheck, email)
-                    .then(result => {
-                        if (result.rows[0].verification == 0) {
-                            response.status(405).send({
-                                message: 'Email is unverified'
-                            })
-                        } else {
-                            //credentials do not match
-                            response.status(400).send({
-                                message: 'Invalid password'
-                            })
-                        }
-                    })
+                .then(result => {
+                    if (result.rows[0].verification == 0) {
+                        response.status(405).send({
+                            message: 'Email is unverified' 
+                        })
+                    } else {
+                        //credentials do not match
+                        response.status(400).send({
+                            message: 'Invalid password' 
+                        })
+                    } 
+                })
 
             }
         })
