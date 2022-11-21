@@ -100,7 +100,7 @@ router.get('/', (request, response, next) => {
             //Did our salted hash match their salted hash?
             if (storedSaltedHash === providedSaltedHash ) {
                 //credentials match. get a new JWT
-                let loginCheck = 'SELECT verification, memberid, firstname, lastname, nickname FROM members WHERE email = $1';
+                let loginCheck = 'SELECT verification, email, memberid, firstname, lastname, nickname FROM members WHERE email = $1';
                 let email = [request.auth.email];
                 pool.query(loginCheck, email)
                 .then(result => {
@@ -120,6 +120,7 @@ router.get('/', (request, response, next) => {
                             success: true,
                             message: 'Authentication successful!',
                             token: token,
+                            email: result.rows[0].email,
                             firstname: result.rows[0].firstname,
                             lastname: result.rows[0].lastname,
                             nickname: result.rows[0].nickname,

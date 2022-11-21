@@ -35,37 +35,37 @@ const router = express.Router();
  *
  * Call this query with BASE_URL/search/SEARCHED
  */
- router.get(
-    '/:searched',
-    jwt.checkToken,
-    (request, response) => {
-        // Search for User
-        let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
-        FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
-        WHERE nickname ILIKE $1 AND members.memberiD != $2`
-        let values = [request.params.searched+'%', request.decoded.memberid];
+//  router.get(
+//     '/:searched',
+//     jwt.checkToken,
+//     (request, response) => {
+//         // Search for User
+//         let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
+//         FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
+//         WHERE nickname ILIKE $1 AND members.memberiD != $2`
+//         let values = [request.params.searched+'%', request.decoded.memberid];
 
-        pool.query(query, values)
-            .then((result) => {
-                if (result.rowCount==0) {
-                    response.status(200).send({
-                        message: 'No results found!'
-                    })
-                } else {
-                    response.status(200).send({
-                        rows: result.rows,
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                response.status(400).send({
-                    result: 'ERROR',
-                    error: err,
-                });
-            });
-    }
-);
+//         pool.query(query, values)
+//             .then((result) => {
+//                 if (result.rowCount==0) {
+//                     response.status(200).send({
+//                         message: 'No results found!'
+//                     })
+//                 } else {
+//                     response.status(200).send({
+//                         rows: result.rows,
+//                     });
+//                 }
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//                 response.status(400).send({
+//                     result: 'ERROR',
+//                     error: err,
+//                 });
+//             });
+//     }
+// );
 
 
 /**
@@ -99,7 +99,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by Email
-        let query = `SELECT firstname, lastname, nickname FROM members WHERE email=$1`;
+        let query = `SELECT firstname, lastname, nickname, memberid, email FROM members WHERE email=$1`;
         let values = [request.params.email];
 
         pool.query(query, values)
@@ -155,7 +155,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by Nickname
-        let query = `SELECT firstname, lastname, email FROM members WHERE nickname=$1`;
+        let query = `SELECT firstname, lastname, nickname, email, memberid FROM members WHERE nickname=$1`;
         let values = [request.params.nickname];
 
         pool.query(query, values)
@@ -211,7 +211,7 @@ router.get(
     },
     (request, response) => {
         // Search for User by First and Last
-        let query = `SELECT email, nickname FROM members WHERE firstname=$1 AND lastname=$2`;
+        let query = `SELECT email, nickname, lastname, firstname, memberid FROM members WHERE firstname=$1 OR lastname=$2`;
         let values = [request.params.first, request.params.last];
 
         pool.query(query, values)
