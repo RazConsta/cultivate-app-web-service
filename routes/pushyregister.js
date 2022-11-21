@@ -121,7 +121,7 @@ router.delete('/', middleware.checkToken, (request, response, next) => {
                 //JWT created by this service. But, keep the check here
                 //anyway.
                 response.status(404).send({
-                    message: "user not found a" + request.decoded.memberid + "a"
+                    message: "user not found"
                 })
             } else {
                 //user found
