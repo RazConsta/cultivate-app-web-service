@@ -53,7 +53,7 @@ router.put('/', middleware.checkToken, (request, response, next) => {
                 //JWT created by this service. But, keep the check here
                 //anyway.
                 response.status(404).send({
-                    message: "user not found"
+                    message: "user not found" + request.decoded.memberid + "as" + request.body.token
                 })
             } else {
                 //user found
@@ -121,7 +121,7 @@ router.delete('/', middleware.checkToken, (request, response, next) => {
                 //JWT created by this service. But, keep the check here
                 //anyway.
                 response.status(404).send({
-                    message: "user not found"
+                    message: "user not found a" + request.decoded.memberid + "a"
                 })
             } else {
                 //user found
