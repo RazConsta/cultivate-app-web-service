@@ -73,9 +73,9 @@ INSERT INTO
     ChatMembers(ChatId, MemberId)
 SELECT 1, Members.MemberId
 FROM Members
-WHERE Members.Email='test1@test.com'
-    OR Members.Email='test2@test.com'
-    OR Members.Email='test3@test.com'
+WHERE Members.Verification='1'
+    -- OR Members.Email='test2@test.com'
+    -- OR Members.Email='test3@test.com'
 RETURNING *;
 
 --Add Multiple messages to create a conversation
