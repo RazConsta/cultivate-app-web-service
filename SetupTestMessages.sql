@@ -7,6 +7,9 @@ DELETE FROM Messages;
 --Remove all chats
 DELETE FROM Chats;
 
+--Remove all tokens
+DELETE FROM push_token;
+
 
 --Remove the user test1
 DELETE FROM Credentials 
