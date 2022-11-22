@@ -2,6 +2,7 @@
  * Returns the current profile of a given user.
  * routes: GET /:email? to search an unfriended user by Email address
  * routes: GET /:nickname? to display a friend by Nickname.
+ * Reference: https://github.com/TCSS450-Team7-MobileApp/team7-webservice
  */
 
 //express is the framework we're going to use to handle requests
@@ -35,37 +36,37 @@ const router = express.Router();
  *
  * Call this query with BASE_URL/search/SEARCHED
  */
-//  router.get(
-//     '/:searched',
-//     jwt.checkToken,
-//     (request, response) => {
-//         // Search for User
-//         let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
-//         FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
-//         WHERE nickname ILIKE $1 AND members.memberiD != $2`
-//         let values = [request.params.searched+'%', request.decoded.memberid];
+ router.get(
+    '/:searched',
+    jwt.checkToken,
+    (request, response) => {
+        // Search for User
+        let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
+        FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
+        WHERE nickname ILIKE $1 AND members.memberiD != $2`
+        let values = [request.params.searched+'%', request.decoded.memberid];
 
-//         pool.query(query, values)
-//             .then((result) => {
-//                 if (result.rowCount==0) {
-//                     response.status(200).send({
-//                         message: 'No results found!'
-//                     })
-//                 } else {
-//                     response.status(200).send({
-//                         rows: result.rows,
-//                     });
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//                 response.status(400).send({
-//                     result: 'ERROR',
-//                     error: err,
-//                 });
-//             });
-//     }
-// );
+        pool.query(query, values)
+            .then((result) => {
+                if (result.rowCount==0) {
+                    response.status(200).send({
+                        message: 'No results found!'
+                    })
+                } else {
+                    response.status(200).send({
+                        rows: result.rows,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                response.status(400).send({
+                    result: 'ERROR',
+                    error: err,
+                });
+            });
+    }
+);
 
 
 /**
@@ -86,7 +87,7 @@ const router = express.Router();
  * Call this query with BASE_URL/search/email/EMAIL
  */
 router.get(
-    '/email/:email?',
+    '/emai/:email?',
     (request, response, next) => {
         // validate userId of user requesting friends list
         if (request.params.email === undefined) {
@@ -195,10 +196,10 @@ router.get(
  * @apiError (404: userId not found) {String} message "userId not found"
  * @apiError (400: SQL Error) {String} the reported SQL error details
  *
- * Call this query with BASE_URL/search/nickname/NICKNAME
+ * Call this query with BASE_URL/search/name/first/last
  */
  router.get(
-    '/name/:first/:last',
+    '/:first/:last',
     (request, response, next) => {
         // validate userId of user requesting friends list
         if (request.params.first === undefined || request.params.last === undefined) {

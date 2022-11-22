@@ -1,5 +1,6 @@
 /**
  * Returns the current friends list for a given user.
+ * Reference: https://github.com/TCSS450-Team7-MobileApp/team7-webservice
  */
 
 //express is the framework we're going to use to handle requests
