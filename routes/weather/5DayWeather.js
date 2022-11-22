@@ -62,10 +62,10 @@ router.get('/', async (request, response) => {
                 //update the map if the high temp is higher than the current high temp or if the low temp is lower than the current low temp
                 if(forecast.has(dayOfWeekString)) {
                     if(forecast.get(dayOfWeekString)[0] < temp) {
-                        forecast.set(dayOfWeekString, [temp, forecast.get(dayOfWeekString)[1]]);
+                        forecast.set(dayOfWeekString, [temp, forecast.get(dayOfWeekString)[1], day.weather[0].main]);
                     }
                     if(forecast.get(dayOfWeekString)[1] > temp) {
-                        forecast.set(dayOfWeekString, [forecast.get(dayOfWeekString)[0], temp]);
+                        forecast.set(dayOfWeekString, [forecast.get(dayOfWeekString)[0], temp, day.weather[0].main]);
                     }   
 
                 } else {
