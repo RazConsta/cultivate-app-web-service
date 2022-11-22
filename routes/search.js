@@ -1,4 +1,5 @@
 /**
+ * Reference: https://github.com/TCSS450-Team7-MobileApp/team7-webservice
  * Returns the current profile of a given user.
  * routes: GET /:email? to search an unfriended user by Email address
  * routes: GET /:nickname? to display a friend by Nickname.
@@ -75,7 +76,7 @@ const router = express.Router();
  *
  * @apiDescription Search for user by email: Query to return a user's first, last, and nick name by email.
  *
- * @apiParam {String} email the email to retrieve the profile from.
+ * @apiParam {String} email the email to retrieve the profile form.
  *
  * @apiSuccess {Object} the profile returned.
  * @apiSuccess {Number} rowCount the number of users found (should always be 1 for found, 0 for does not exist);
@@ -131,7 +132,7 @@ router.get(
  *
  * @apiDescription Search for user by nickname: Query to return a user's first, last, and email by nickname.
  *
- * @apiParam {String} nickname the nickname to retrieve the profile from.
+ * @apiParam {String} nickname the nickname to retrieve the profile form.
  *
  * @apiSuccess {Object} the profile returned.
  * @apiSuccess {Number} rowCount the number of users found (should always be 1 for found, 0 for does not exist);
@@ -181,13 +182,13 @@ router.get(
 );
 
 /**
- * @api {get} /name/nickname:?  search for an existing user by nickname.
+ * @api {get} /name/first:?/last:?  search for an existing user by fullname.
  * @apiName GetProfile
  * @apiGroup Profile
  *
- * @apiDescription Search for user by nickname: Query to return a user's first, last, and email by nickname.
+ * @apiDescription Search for user by fullname: Query to return a user's first, last, and email by fullname.
  *
- * @apiParam {String} nickname the nickname to retrieve the profile from.
+ * @apiParam {String} fullname the fullname to retrieve the profile form.
  *
  * @apiSuccess {Object} the profile returned.
  * @apiSuccess {Number} rowCount the number of users found (should always be 1 for found, 0 for does not exist);
@@ -195,7 +196,7 @@ router.get(
  * @apiError (404: userId not found) {String} message "userId not found"
  * @apiError (400: SQL Error) {String} the reported SQL error details
  *
- * Call this query with BASE_URL/search/nickname/NICKNAME
+ * Call this query with BASE_URL/search/name/FIRSTNAME/LASTNAME
  */
  router.get(
     '/name/:first/:last',
