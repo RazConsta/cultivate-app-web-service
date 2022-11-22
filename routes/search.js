@@ -35,37 +35,37 @@ const router = express.Router();
  *
  * Call this query with BASE_URL/search/SEARCHED
  */
-//  router.get(
-//     '/:searched',
-//     jwt.checkToken,
-//     (request, response) => {
-//         // Search for User
-//         let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
-//         FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
-//         WHERE nickname ILIKE $1 AND members.memberiD != $2`
-//         let values = [request.params.searched+'%', request.decoded.memberid];
+ router.get(
+    '/:searched',
+    jwt.checkToken,
+    (request, response) => {
+        // Search for User
+        let query = `SELECT DISTINCT firstname, lastname, nickname, memberid as id, email 
+        FROM members FULL JOIN Contacts ON members.memberid = Contacts.memberid_A 
+        WHERE nickname ILIKE $1 AND members.memberiD != $2`
+        let values = [request.params.searched+'%', request.decoded.memberid];
 
-//         pool.query(query, values)
-//             .then((result) => {
-//                 if (result.rowCount==0) {
-//                     response.status(200).send({
-//                         message: 'No results found!'
-//                     })
-//                 } else {
-//                     response.status(200).send({
-//                         rows: result.rows,
-//                     });
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//                 response.status(400).send({
-//                     result: 'ERROR',
-//                     error: err,
-//                 });
-//             });
-//     }
-// );
+        pool.query(query, values)
+            .then((result) => {
+                if (result.rowCount==0) {
+                    response.status(200).send({
+                        message: 'No results found!'
+                    })
+                } else {
+                    response.status(200).send({
+                        rows: result.rows,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                response.status(400).send({
+                    result: 'ERROR',
+                    error: err,
+                });
+            });
+    }
+);
 
 
 /**
