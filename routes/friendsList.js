@@ -19,9 +19,6 @@ const validation = require('../utilities/exports').validation;
 let isStringProvided = validation.isStringProvided;
 const msg_functions = require('../utilities/exports').messaging
 
-
-
-
 const router = express.Router();
 
 /**
@@ -42,7 +39,7 @@ const router = express.Router();
  * @apiError (404: userId not found) {String} message "no memberid request sent!"
  * @apiError (400: SQL Error) {String} the reported SQL error details
  *
- * Call this query with BASE_URL/friendsList/MemberID
+ * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
 router.get(
     '/:memberid/:verified',
@@ -363,7 +360,7 @@ router.post(
  *
  *  @apiError (404: memberid not found) {String} message "memberid not found"
  *
- * NOTE: To use this query, the URL should be BASE_URL/friendsList/delete/:memberid?
+ * NOTE: To use this query, the URL should be BASE_URL/friendsList/delete/:memberida?/:memberidb?
  * where :memberid? is the current user. The app should pass in the body the memberid of the user to be removed.
  */
 router.delete(
