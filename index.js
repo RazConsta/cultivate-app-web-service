@@ -36,7 +36,7 @@ app.use('/chats', middleware.checkToken, require('./routes/chat.js')) // Create 
 app.use('/auth', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
 
 //Weather
-app.use('/weather', require('./routes/weather/5DayWeather.js'))
+app.use('/24HourWeather', require('./routes/weather/24HourWeather.js'))
 app.use('/currentWeather', require('./routes/weather/currentWeather.js'))
 app.use('/5DayWeather', require('./routes/weather/5DayWeather.js'))
 

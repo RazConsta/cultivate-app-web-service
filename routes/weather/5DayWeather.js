@@ -91,8 +91,6 @@ router.get('/', async (request, response) => {
             for (let [key, value] of newForecast) {
                 json[key] = value;
             }
-
-
             response.json(json);
 
         })
