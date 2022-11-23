@@ -1,8 +1,8 @@
 {
-    "name": "TCSS 450 Lab Web Service",
-    "version": "0.1.0",
-    "description": "The TCSS 450 Lab Web Service API Documentation",
-    "title": "Lab API Doc",
+    "name": "Cultivate App Web Service",
+    "version": "2.3.7",
+    "description": "Web Service Documentation",
+    "title": "Cultivate API Doc",
     "url" : "https://cultivate-app-web-service.herokuapp.com/",
     "order": [
       "Hello",
