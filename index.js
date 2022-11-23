@@ -24,7 +24,6 @@ app.use('/resetVerify', require('./routes/email_verif/resetVerify.js'))
 app.use('/changePassword', require('./routes/password/changePassword.js'))
 app.use('/resetPassword', require('./routes/password/resetPassword.js'))
 app.use('/changeNickname', require('./routes/changeNickname.js'))
-app.use('/getNickname', require('./routes/getNickname.js'))
 app.use('/verify', require('./routes/email_verif/verify.js')) // GET Request to verify email
 app.use('/auth', require('./routes/signin.js')) // GET Request to sign in a user
 app.use('/auth', require('./routes/register.js')) // POST Request to sign up a user
@@ -36,7 +35,7 @@ app.use('/chats', middleware.checkToken, require('./routes/chat.js')) // Create 
 app.use('/auth', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
 
 //Weather
-app.use('/weather', require('./routes/weather/5DayWeather.js'))
+app.use('/24HourWeather', require('./routes/weather/24HourWeather.js'))
 app.use('/currentWeather', require('./routes/weather/currentWeather.js'))
 app.use('/5DayWeather', require('./routes/weather/5DayWeather.js'))
 

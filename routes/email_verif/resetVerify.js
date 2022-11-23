@@ -19,7 +19,7 @@ router.use(bodyParser.json());
 /**
  * @api {get} /resetVerify Email verification for changing password.
  * @apiName getResetVerify
- * @apiGroup resetVerify
+ * @apiGroup Forgot Password
  * 
  * 
  */
@@ -38,6 +38,11 @@ router.get('/', (request, response) => {
         })
 })
 
+/**
+ * @api {get} /resetVerify/success Verify forgot password request
+ * @apiName GetResetVerifySuccess
+ * @apiGroup Forgot Password
+ */ 
 router.get('/success', (request, response) => {
     // response.sendFile(path.join(__dirname + '/verify-thanks.html'));
     // response.sendFile('https://site113379.nicepage.io/Home.html');

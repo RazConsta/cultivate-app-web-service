@@ -11,6 +11,11 @@ async function getWeather() {
     return data;
 }
 
+/**
+ * @api {get} /5DayWeather Request for 5 days of weather info
+ * @apiName Get5DayWeather
+ * @apiGroup Weather
+ */ 
 router.get('/', async (request, response) => {
 
     getWeather()
@@ -91,8 +96,6 @@ router.get('/', async (request, response) => {
             for (let [key, value] of newForecast) {
                 json[key] = value;
             }
-
-
             response.json(json);
 
         })
