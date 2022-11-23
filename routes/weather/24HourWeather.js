@@ -11,6 +11,11 @@ async function getWeather() {
     return data;
 }
 
+/**
+ * @api {get} /24HourWeather Request for 24hrs of weather info
+ * @apiName Get24HourWeather
+ * @apiGroup Weather
+ */ 
 router.get('/', async (request, response) => {
 
     getWeather()
