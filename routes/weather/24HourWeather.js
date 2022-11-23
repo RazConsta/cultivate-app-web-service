@@ -17,7 +17,7 @@ router.get('/', async (request, response) => {
         .then((weather) => {
             console.log(weather);
             let weatherArray = {};
-
+            let i = 0;
             weather.list.forEach((day) => {
                 //store each weather temperature, conditions and time in an array
                 let temp = Math.round(day.main.temp);
@@ -48,7 +48,10 @@ router.get('/', async (request, response) => {
                 }
 
                 //add object to weather json
-                weatherArray[time] = dayObj;
+                //name the object hour1, hour2, etc
+                let hour = 'hour' + (i + 1);
+                weatherArray[hour] = dayObj;
+                i++;
 
             })
 
