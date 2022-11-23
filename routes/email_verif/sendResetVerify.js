@@ -20,7 +20,7 @@ const router = express.Router()
 /**
  * @api {post} /sendResetVerify Request to send the email verification to change the password.
  * @apiName PostSendResetVerify
- * @apiGroup sendResetVerify
+ * @apiGroup Forgot Password
  * 
  * @apiHeader {String} authorization "username:password" uses Basic Auth 
  * 
