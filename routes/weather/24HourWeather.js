@@ -45,15 +45,9 @@ router.get('/', async (request, response) => {
 
                 time = timeInt + ampm;
 
-                //create a new object for each day
-                let dayObj = {
-                    temp: temp,
-                    conditions: conditions,
-                    time: time
-                }
+                let dayObj = [temp, conditions, time];
 
-                //add object to weather json
-                //name the object hour1, hour2, etc
+
                 let hour = 'hour' + (i + 1);
                 weatherArray[hour] = dayObj;
                 i++;
