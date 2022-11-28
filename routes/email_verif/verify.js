@@ -51,7 +51,7 @@ router.get('/', (request, response) => {
             })
         })
 })
-
+//
 /**
  * @api {get} /verify/success Verify register email verification.
  * @apiName GetVerifySuccess
