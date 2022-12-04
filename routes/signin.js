@@ -105,13 +105,19 @@ router.get('/', (request, response, next) => {
                 pool.query(loginCheck, email)
                 .then(result => {
                     if (result.rows[0].verification >= 1) {
+
+                        let firstname = result.rows[0].firstname;
+                        let lastname = result.rows[0].lastname;
+                        let nickname = result.rows[0].nickname;
+                        let memberid = result.rows[0].memberid;
+
                         let token = jwt.sign(
                             {
                                 "email": request.auth.email,
-                                "memberid": result.rows[0].memberid,
-                                "firstname": result.rows[0].firstname,
-                                "lastname": result.rows[0].lastname,
-                                "nickname": result.rows[0].nickname
+                                "memberid": memberid,
+                                "firstname": firstname,
+                                "lastname": lastname,
+                                "nickname": nickname
                             },
                             config.secret,
                             { 
