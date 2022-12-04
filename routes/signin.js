@@ -108,7 +108,7 @@ router.get('/', (request, response, next) => {
                         let token = jwt.sign(
                             {
                                 "email": request.auth.email,
-                                "memberid": 10 // result.rows[0].memberid,
+                                "memberid": result.rows[0].memberid
                             },
                             config.secret,
                             { 
