@@ -19,9 +19,7 @@ router.use(bodyParser.json());
 /**
  * @api {get} /verify Email verification.
  * @apiName getVerify
- * @apiGroup verify
- * 
- * 
+ * @apiGroup Auth
  */
 router.get('/', (request, response) => {
     let firstQuery = 'SELECT * FROM members WHERE email = $1 AND verification = 0'
@@ -53,7 +51,12 @@ router.get('/', (request, response) => {
             })
         })
 })
-
+//
+/**
+ * @api {get} /verify/success Verify register email verification.
+ * @apiName GetVerifySuccess
+ * @apiGroup Auth
+ */ 
 router.get('/success', (request, response) => {
     // response.sendFile(path.join(__dirname + '/verify-thanks.html'));
     // response.sendFile('https://site113379.nicepage.io/Home.html');

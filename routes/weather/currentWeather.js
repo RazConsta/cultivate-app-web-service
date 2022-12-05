@@ -11,6 +11,11 @@ async function getCurrentWeather() {
     return data;
 }
 
+/**
+ * @api {get} /currentWeather Request for current weather info
+ * @apiName GetCurrentWeather
+ * @apiGroup Weather
+ */ 
 router.get('/', async (request, response) => {
 
     getCurrentWeather()
