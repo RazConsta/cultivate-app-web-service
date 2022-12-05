@@ -42,7 +42,7 @@ const router = express.Router();
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
 router.get(
-    '/:memberid/:roomcount',
+    '/:memberid/:room',
     (request, response, next) => {
         // validate memberid of user requesting friends list
         if (request.params.memberid === undefined) {
@@ -70,12 +70,11 @@ router.get(
             });
     },
     (request, response) => {
-        let query = `select * from chats 
-        inner join messages 
-        on chats.chatid=messages.chatid 
-        where messages.memberid=$1 
-        order by primarykey desc limit $2`;
-        let values = [request.params.memberid, request.params.roomcount];
+        let query = `SELECT * FROM chats INNER JOIN messages 
+        ON chats.chatid=messages.chatid 
+        WHERE messages.memberid=$1 
+        ORDER BY primarykey DESC LIMIT $2`;
+        let values = [request.params.memberid, request.params.room];
 
         pool.query(query, values)
             .then((result) => {
