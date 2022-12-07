@@ -42,7 +42,7 @@ const router = express.Router();
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
 router.get(
-    '/:memberid/:room',
+    '/:memberid',
     (request, response, next) => {
         // validate memberid of user requesting friends list
         if (request.params.memberid === undefined) {
@@ -70,11 +70,8 @@ router.get(
             });
     },
     (request, response) => {
-        let query = `SELECT * FROM chats INNER JOIN messages 
-        ON chats.chatid=messages.chatid 
-        WHERE messages.memberid=$1 
-        ORDER BY primarykey DESC LIMIT $2`;
-        let values = [request.params.memberid, request.params.room];
+        let query = `SELECT * FROM chats INNER JOIN messages ON chats.chatid=messages.chatid WHERE messages.memberid=$1 ORDER BY primarykey DESC`;
+        let values = [request.params.memberid];
 
         pool.query(query, values)
             .then((result) => {
@@ -92,34 +89,5 @@ router.get(
             });
     }
 );
-
-/**
- * 
- */
-router.post("/", (request, response, next) => {
-    if(!isStringProvided(request.body.name)) {
-        response.status(400).send({
-            message: "Missing required information!"
-        })
-    } else {
-        next()
-    }
-}, (request, response, next) => {
-    query = `insert into chats (name) values ($s1) returning chatid`
-    values = [request.body.name]
-
-    pool.query(query, values)
-    .then(result => {
-        response.send({
-            success: true,
-            chatid: result.rows[0].chatid
-        })
-    }).catch((err) => {
-        response.status(401).send({
-            message: "SQL Error!",
-            error: err
-        })
-    })
-})
 
 module.exports = router;
