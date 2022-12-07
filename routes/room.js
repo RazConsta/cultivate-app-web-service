@@ -90,8 +90,27 @@ router.get(
     }
 );
 
+/**
+ * NOTE: THIS QUERY DOES NOT REQUIRE AUTHORIZATION
+ *
+ * @api {put} /friendsList/delete/:memberid? Remove a friend from friend's list
+ * @apiName deleteFriends
+ * @apiGroup Friends
+ *
+ * @apiParam {String} MemberA the memberid of the Member requesting deletion
+ * @apiParam {String} MemberB the memberid of the user being deleted from MemberA's friendsList
+ *
+ * @apiDescription a query to delete a friend from friendsList
+ *
+ * @apiSuccess (200) {String} decoded jwt
+ *
+ *  @apiError (404: memberid not found) {String} message "memberid not found"
+ *
+ * NOTE: To use this query, the URL should be BASE_URL/friendsList/delete/:memberida?/:memberidb?
+ * where :memberid? is the current user. The app should pass in the body the memberid of the user to be removed.
+ */
 router.delete(
-    '/delete:/chatid:/memberid',
+    '/delete:/chatid',
     middleware.checkToken,
     (request, response, next) => {
         let query = `delete from chats where chatid=$1`;
@@ -110,7 +129,7 @@ router.delete(
     },
     (request, response) => {
         let query = `delete from messages where chatid=$1`;
-        let values = [request.params.memberid];
+        let values = [request.params.chatid];
 
         pool.query(query, values)
         .then((result) => {
