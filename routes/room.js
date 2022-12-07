@@ -91,23 +91,38 @@ router.get(
 );
 
 router.delete(
-    '/delete:/chatid',
+    '/delete:/chatid:/memberid',
     middleware.checkToken,
-    (request, response) => {
-        let query = `delete from chats where (chatid=$1); delete from messages where (chatid=$1)`;
+    (request, response, next) => {
+        let query = `delete from chats where chatid=$1`;
         let values = [request.params.chatid];
 
         pool.query(query, values)
         .then((result) => {
-                response.status(200)
-                .send({
-                    message: jwt.decoded
-                })
+                next()
         })
         .catch((err) => {
             console.log('error deleting: ' + err);
                 response.status(400).send({
-                    message: 'Error deleting user from chat room'
+                    message: 'Error deleting chat room from chatid'
+            });
+        });
+    },
+    (request, response) => {
+        let query = `delete from messages where chatid=$1`;
+        let values = [request.params.memberid];
+
+        pool.query(query, values)
+        .then((result) => {
+            response.status(200)
+            .send({
+                message: jwt.decoded
+            })
+        })
+        .catch((err) => {
+            console.log('error deleting: ' + err);
+                response.status(400).send({
+                    message: 'Error deleting chat room from chatid'
             });
         });
     });
