@@ -90,4 +90,29 @@ router.get(
     }
 );
 
+router.delete(
+    ':/chatid',
+    middleware.checkToken,
+    (request, response) => {
+        let query = `delete from chatid where (chatid=$1); delete from messages where (chatid=$1)`;
+        let values = [request.params.chatid];
+
+        pool.query(query, values)
+        .then((result) => {
+                response.status(200)
+                .send({
+                    message: jwt.decoded
+                })
+        })
+        .catch((err) => {
+            console.log('error deleting: ' + err);
+                response.status(400).send({
+                    message: 'Error deleting user from chat room'
+            });
+        });
+    });
+
 module.exports = router;
+//DELETE messages , usersmessages  FROM messages  INNER JOIN usersmessages WHERE messages.messageid= usersmessages.messageid and messages.messageid = '1'
+
+// insert into chats ('chatid', 'name') values ('4', 'text4');
