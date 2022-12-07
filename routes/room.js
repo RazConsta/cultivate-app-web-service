@@ -94,7 +94,7 @@ router.delete(
     '/delete:/chatid',
     middleware.checkToken,
     (request, response) => {
-        let query = `delete from chatid where (chatid=$1); delete from messages where (chatid=$1)`;
+        let query = `delete from chats where (chatid=$1); delete from messages where (chatid=$1)`;
         let values = [request.params.chatid];
 
         pool.query(query, values)
