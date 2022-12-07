@@ -147,6 +147,3 @@ router.delete(
     });
 
 module.exports = router;
-//DELETE messages , usersmessages  FROM messages  INNER JOIN usersmessages WHERE messages.messageid= usersmessages.messageid and messages.messageid = '1'
-
-// insert into chats ('chatid', 'name') values ('4', 'text4');
