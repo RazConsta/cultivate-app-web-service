@@ -110,7 +110,7 @@ router.get(
  *
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
-router.post("/", (request, response, next) => {
+router.post("/:name?", (request, response, next) => {
     if(!isStringProvided(request.body.name)) {
         response.status(400).send({
             message: "Missing required information!"
