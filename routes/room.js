@@ -119,7 +119,7 @@ router.post("/", (request, response, next) => {
         next()
     }
 }, (request, response) => {
-    query = `insert into chats (name) values ($s1) returning chatid`
+    query = `insert into chats (name) values ($1) returning chatid`
     values = [request.body.name]
 
     pool.query(query, values)
