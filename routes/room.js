@@ -90,4 +90,33 @@ router.get(
     }
 );
 
+/**
+ * to be documented later :>  
+ */
+router.post("/", (request, response, next) => {
+    if(!isStringProvided(request.body.name)) {
+        response.status(400).send({
+            message: "Missing required information!"
+        })
+    } else {
+        next()
+    }
+}, (request, response, next) => {
+    query = `insert into chats (name) values ($s1) returning chatid`
+    values = [request.body.name]
+
+    pool.query(query, values)
+    .then(result => {
+        response.send({
+            success: true,
+            chatid: result.rows[0].chatid
+        })
+    }).catch((err) => {
+        response.status(401).send({
+            message: "SQL Error!",
+            error: err
+        })
+    })
+})
+
 module.exports = router;
