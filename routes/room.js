@@ -110,7 +110,7 @@ router.get(
  * where :memberid? is the current user. The app should pass in the body the memberid of the user to be removed.
  */
 router.delete(
-    '/delete:/chatid',
+    '/delete/:chatid',
     middleware.checkToken,
     (request, response, next) => {
         let query = `delete from chats where chatid=$1`;
