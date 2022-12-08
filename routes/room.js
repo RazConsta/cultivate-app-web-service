@@ -127,10 +127,10 @@ router.post("/:name?", (request, response, next) => {
     pool.query(query, values)
         .then(result => {
             response.name = result.rows[0].chatid;
-            response.mem = request.decoded.memberid;
+            // response.mem = request.decoded.memberid;
             response.send({
                 name: response.name,
-                id: response.mem
+                // id: response.mem
             })
         }).catch((err) => {
             response.status(401).send({
