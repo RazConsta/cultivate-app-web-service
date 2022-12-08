@@ -124,12 +124,12 @@ router.post("/:name?", (request, response, next) => {
 
     pool.query(query, values)
     .then(result => {
-        response.chatMemberPut = result.rows
+        response.name = result.rows[0].chatid
+        // next()
         response.send({
-            success: true
-            // chatid: result.rows[0].chatid
+            success: true,
+            chatid: response.name
         })
-        console.log(response.chatMemberPut)
     }).catch((err) => {
         response.status(401).send({
             message: "SQL Error!",
@@ -137,6 +137,5 @@ router.post("/:name?", (request, response, next) => {
         })
     })
 })
-
 
 module.exports = router;
