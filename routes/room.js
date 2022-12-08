@@ -120,29 +120,34 @@ router.post("/:name?", (request, response, next) => {
     } else {
         next()
     }
-}, (request, response, next) => {
+}, (request, response) => {
     let query = `insert into chats (name) values ($1) returning chatid`
     let values = [request.body.name]
 
     pool.query(query, values)
         .then(result => {
             response.name = result.rows[0].chatid;
-            next();
+            response.mem = request.decoded.memberid;
+            response.send({
+                name: response.name,
+                id: response.mem
+            })
         }).catch((err) => {
             response.status(401).send({
                 message: "SQL Error!",
                 error: err
             })
         })
-}, (request, response) => {
-    let query = `insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
-    let values = [response.name, request.decoded.memberid]
-
-    pool.query(query, values).then(result => {
-        response.status(200).send({
-            message: 'success create chat room and add login member to chat!'
-        });
-    });
 });
+// , (request, response) => {
+//     let query = `insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
+//     let values = [response.name, request.decoded.memberid]
+
+//     pool.query(query, values).then(result => {
+//         response.status(200).send({
+//             message: 'success create chat room and add login member to chat!'
+//         });
+//     });
+// });
 
 module.exports = router;
