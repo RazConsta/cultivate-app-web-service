@@ -21,9 +21,12 @@ router.get('/', async (request, response) => {
     getCurrentWeather(request.body.longitude, request.body.latitude)
         .then((weather) => {
             //Retrieve temp and conditions
+            //round temp to nearest whole number
+            const temp = Math.round(weather.main.temp);
+
             const result = 
                 {
-                    temperature: weather.main.temp, //Temperature
+                    temperature: temp, //Temperature
                     conditions: weather.weather[0].main //Conditions
                 }
 
