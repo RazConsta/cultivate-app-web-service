@@ -4,7 +4,7 @@
  */
 
 //express is the framework we're going to use to handle requests
-const { response } = require('express');
+const { response, query } = require('express');
 const express = require('express');
 const { CLIENT_MULTI_RESULTS } = require('mysql/lib/protocol/constants/client');
 
@@ -89,5 +89,51 @@ router.get(
             });
     }
 );
+
+/**
+ * @api {post} /room/:memberid/:verified Display existing OR pending friends in database.
+ * @apiName GetFriends
+ * @apiGroup Friends
+ *
+ * @apiDescription Request a list of all current friends or friend requests from the server
+ * with a given memberId. If no friends, should still return an empty list.
+ *
+ * @apiParam {Number} memberId the userId to get the friends list from.
+ * @apiParam {Number} verified to return either verified or friend requests.
+ *
+ * @apiSuccess {Number} friendsCount the number of friends returned.
+ * @apiSuccess {Object[]} friendsList the list of friends in the friends table.
+ * @apiSuccess {Number} rowCount the number of rows returned
+ *
+ * @apiError (404: userId not found) {String} message "no memberid request sent!"
+ * @apiError (401: SQL Error) {String} the reported SQL error details
+ *
+ * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
+ */
+router.post("/:name?", (request, response, next) => {
+    if(!isStringProvided(request.body.name)) {
+        response.status(400).send({
+            message: "Missing required information!"
+        })
+    } else {
+        next()
+    }
+}, (request, response) => {
+    let query = `insert into chats (name) values ($1) returning chatid`
+    let values = [request.body.name]
+
+    pool.query(query, values)
+    .then(result => {
+        response.send({
+            success: true,
+            chatid: result.rows[0].chatid
+        })
+    }).catch((err) => {
+        response.status(401).send({
+            message: "SQL Error!",
+            error: err
+        })
+    })
+})
 
 module.exports = router;

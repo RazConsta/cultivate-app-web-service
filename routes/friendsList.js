@@ -365,7 +365,7 @@ router.post(
  */
 router.delete(
     '/delete/:memberida/:memberidb',
-    middleware.checkToken,
+    // middleware.checkToken,
     (request, response, next) => {
         // middleware.checkToken will verify that a token holder is the requester
 
