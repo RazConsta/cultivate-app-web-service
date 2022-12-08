@@ -132,9 +132,22 @@ router.post("/:name?", (request, response, next) => {
                 error: err
             })
         })
+}, (request, response, next) => {
+    let query = `select concat($1, 'just join in the chat!')`
+    let values = [request.body.nick]
+    pool.query(query, values)
+        .then(result => {
+            response.nickname = result.rows[0].concat;
+            next();
+        }).catch((err) => {
+            response.status(402).send({
+                message: "SQL Error! 2",
+                error: err
+            })
+        })
 }, (request, response) => {
-    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'Hi $3 welcome to the chat room!')`
-    let values = [response.chatid, request.body.memberid, request.body.nick]
+    let query = `insert into messages (chatid, memberid, message) values ($1, $2, $3)`
+    let values = [response.chatid, request.body.memberid, response.nickname]
 
     pool.query(query, values)
     .then(result => {
@@ -143,7 +156,7 @@ router.post("/:name?", (request, response, next) => {
         })
     }).catch((err) => {
         response.status(402).send({
-            message: "SQL Error 2!",
+            message: "SQL Error 3!",
             error: err
         })
     })
