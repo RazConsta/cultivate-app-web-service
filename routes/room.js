@@ -119,7 +119,7 @@ router.post("/:name?", (request, response, next) => {
         next()
     }
 }, (request, response) => {
-    let query = `insert into chats (name) values ($1) returning chatid`
+    let query = `insert into chats (name) values ($1) returning chatid; insert into chats (name) values ('secondquery')`
     let values = [request.body.name]
 
     pool.query(query, values)
