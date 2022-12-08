@@ -19,15 +19,15 @@ async function getCurrentWeather(long, lat) {
  */ 
 router.get('/', async (request, response) => {
     getCurrentWeather(request.body.longitude, request.body.latitude)
-        .then((weather) => {
+        .then((results) => {
             //Retrieve temp and conditions
             //round temp to nearest whole number
-            const temp = Math.round(weather.main.temp);
+            const temp = Math.round(results.main.temp);
 
             const result = 
                 {
                     temperature: temp, //Temperature
-                    conditions: weather.weather[0].main //Conditions
+                    conditions: results.weather[0].main //Conditions
                 }
 
             console.log(result);
