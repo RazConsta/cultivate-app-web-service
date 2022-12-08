@@ -4,7 +4,7 @@
  */
 
 //express is the framework we're going to use to handle requests
-const { response, query } = require('express');
+const { response, query, request } = require('express');
 const express = require('express');
 const { CLIENT_MULTI_RESULTS } = require('mysql/lib/protocol/constants/client');
 
@@ -118,22 +118,36 @@ router.post("/:name?", (request, response, next) => {
     } else {
         next()
     }
-}, (request, response) => {
-    let query = `insert into chats (name) values ($1) returning chatid; insert into chats (name) values ('secondquery')`
+}, (request, response, next) => {
+    let query = `insert into chats (name) values ($1) returning chatid`
     let values = [request.body.name]
 
     pool.query(query, values)
     .then(result => {
         response.send({
             success: true,
-            chatid: result.rows[0].chatid
-        })
+            chatid: result.rows[0].chatid,
+        });
+        next()
     }).catch((err) => {
         response.status(401).send({
             message: "SQL Error!",
             error: err
-        })
-    })
+        });
+    });
+}, (request, response) => {
+    let query = `insert into chats (name) values ('secondquery')`
+    let values = [response.body.name]
+    pool.query(query, values).then(result => {
+        response.send({
+            success: true,
+        });
+    }).catch((err) => {
+        response.status(402).send({
+            message: "SQL 2nd query Error!",
+            error: err
+        });
+    });
 })
 
 module.exports = router;
