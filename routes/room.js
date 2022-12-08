@@ -124,16 +124,30 @@ router.post("/", (request, response, next) => {
 
     pool.query(query, values)
     .then(result => {
-        response.name = result.rows[0].chatid
-        // next()
-        response.send({
-            success: true,
-            chatid: response.name
-        })
+        if (result.rowCount > 0) {
+            response.name = result.rows[0].chatid;
+            next();
+        } else {
+            response.status(400).send({
+                message: "Error!"
+            })
+        }
     }).catch((err) => {
         response.status(401).send({
             message: "SQL Error!",
             error: err
+        })
+    })
+}, (request, response, next) => {
+    let query =`insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
+    let values = [response.name, request.decoded.memberid]
+    console.log(request.decoded.memberid)
+   
+    pool.query(query, values)
+    .then(result => {
+        response.status(402).send({
+            userid: request.decoded.memberid,
+            message: 'success',
         })
     })
 })
