@@ -139,11 +139,11 @@ router.post("/", middleware.checkToken, (request, response, next) => {
         })
     })
 }, (request, response) => {
-    let query =`insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
-    let values = [response.chatid, request.body.memberid] 
+    let query =`insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat message!')`
+    let values = [response.name, request.body.memberid] 
     pool.query(query, values)
     .then(result => {
-        response.status(402).send({
+        result.status(200).send({
             message: 'success',
         })
     }).catch((err) => {
