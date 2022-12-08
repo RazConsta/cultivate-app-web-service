@@ -116,6 +116,7 @@ router.post("/", middleware.checkToken, (request, response, next) => {
             message: "Missing required information!"
         })
     } else {
+        console.log(request.decode.memberid)
         next()
     }
 }, (request, response, next) => {
