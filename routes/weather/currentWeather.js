@@ -17,7 +17,7 @@ async function getCurrentWeather(long, lat) {
  * @apiName GetCurrentWeather
  * @apiGroup Weather
  */ 
-router.get('/', async (request, response) => {
+router.post('/', async (request, response) => {
     getCurrentWeather(request.body.longitude, request.body.latitude)
         .then((results) => {
             //Retrieve temp and conditions
