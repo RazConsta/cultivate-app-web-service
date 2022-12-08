@@ -4,8 +4,8 @@ const express = require('express')
 const router = express.Router()
 require('dotenv').config()
 
-async function getWeather() {
-    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/forecast?lat=47.11&lon=-122.11&cnt=38&units=imperial&appid=' + process.env.WEATHER_API_KEY
+async function getWeather(lat, long) {
+    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&cnt=38&units=imperial&appid=' + process.env.WEATHER_API_KEY
     const request = await fetch(WEATHER_API_URL);
     const data = request.json();
     return data;
@@ -16,9 +16,9 @@ async function getWeather() {
  * @apiName Get5DayWeather
  * @apiGroup Weather
  */ 
-router.get('/', async (request, response) => {
+router.post('/', async (request, response) => {
 
-    getWeather()
+    getWeather(request.body.latitude, request.body.longitude)
         .then((weather) => {
             console.log(weather);
             //iterate through the weather list
