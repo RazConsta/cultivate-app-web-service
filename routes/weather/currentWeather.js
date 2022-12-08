@@ -11,6 +11,14 @@ async function getCurrentWeather() {
     return data;
 }
 
+//create an async function to get current weather that takes in lat and long parameters
+async function getCurrentWeather(lat, long) {
+    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cnt=10&units=imperial&appid=' + process.env.WEATHER_API_KEY
+    const request = await fetch(WEATHER_API_URL);
+    const data = request.json();
+    return data;
+}
+
 /**
  * @api {get} /currentWeather Request for current weather info
  * @apiName GetCurrentWeather
@@ -18,7 +26,7 @@ async function getCurrentWeather() {
  */ 
 router.get('/', async (request, response) => {
 
-    getCurrentWeather()
+    getCurrentWeather(request.longitude, request.latitude)
         .then((weather) => {
             //Retrieve temp and conditions
             const result = 
