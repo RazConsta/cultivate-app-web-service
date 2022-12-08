@@ -110,43 +110,43 @@ router.get(
  *
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
-router.post("/:name?", (request, response, next) => {
-    if (!isStringProvided(request.body.name)) {
+router.post("/", middleware.checkToken, (request, response, next) => {
+    if(!isStringProvided(request.body.name)) {
         response.status(400).send({
             message: "Missing required information!"
         })
     } else {
-        console.log(request.decode.memberid)
         next()
     }
 }, (request, response, next) => {
     let query = `insert into chats (name) values ($1) returning chatid`
     let values = [request.body.name]
-    pool.query(query, values)
-        .then(result => {
-            response.chatid = result.rows[0].chatid;
-            next();
-        }).catch((err) => {
-            response.status(401).send({
-                message: "SQL Error!",
-                error: err
-            })
-        })
-}, (request, response) => {
-    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'Hi welcome to the chat!')`
-    let values = [response.chatid, request.body.memberid]
 
     pool.query(query, values)
     .then(result => {
-        response.status(200).send({
-            message: 'success',
-        })
+        if (result.rowCount > 0) {
+            response.name = result.rows[0].chatid;
+            next();
+        } else {
+            response.status(400).send({
+                message: "Error!"
+            })
+        }
     }).catch((err) => {
-        response.status(402).send({
-            message: "SQL Error 2!",
+        response.status(401).send({
+            message: "SQL Error!",
             error: err
         })
     })
-});
+}, (request, response) => {
+    let query =`insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
+    let values = [response.chatid, request.body.memberid] 
+    pool.query(query, values)
+    .then(result => {
+        response.status(402).send({
+            message: 'success',
+        })
+    })
+})
 
 module.exports = router;
