@@ -133,8 +133,8 @@ router.post("/:name?", (request, response, next) => {
             })
         })
 }, (request, response) => {
-    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'Hi There!')`
-    let values = [response.chatid, request.body.memberid]
+    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'Hi $3 welcome to the chat room!')`
+    let values = [response.chatid, request.body.memberid, request.body.nick]
 
     pool.query(query, values)
     .then(result => {
