@@ -146,6 +146,11 @@ router.post("/", middleware.checkToken, (request, response, next) => {
         response.status(402).send({
             message: 'success',
         })
+    }).catch((err) => {
+        response.status(402).send({
+            message: "SQL Error 2!",
+            error: err
+        })
     })
 })
 
