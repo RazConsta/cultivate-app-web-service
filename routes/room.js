@@ -43,7 +43,6 @@ const router = express.Router();
  */
 router.get(
     '/:memberid',
-    middleware.checkToken,
     (request, response, next) => {
         // validate memberid of user requesting friends list
         if (request.params.memberid === undefined) {
@@ -117,6 +116,7 @@ router.post("/:name?", (request, response, next) => {
             message: "Missing required information!"
         })
     } else {
+        console.log(request.decode.memberid)
         next()
     }
 }, (request, response, next) => {

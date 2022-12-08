@@ -42,7 +42,7 @@ app.use('/5DayWeather', require('./routes/weather/5DayWeather.js'))
 app.use('/zipToLatLong', require('./routes/weather/zipToLatLong.js'))
 
 
-app.use('/room', require('./routes/room.js'))
+app.use('/room', middleware.checkToken, require('./routes/room.js'))
 
 /*
  * Return HTML for the / end point. 
