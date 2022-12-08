@@ -43,7 +43,6 @@ const router = express.Router();
  */
 router.get(
     '/:memberid',
-    middleware.checkToken,
     (request, response, next) => {
         // validate memberid of user requesting friends list
         if (request.params.memberid === undefined) {
@@ -112,8 +111,7 @@ router.get(
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
 router.post("/:name?", (request, response, next) => {
-
-    if (!isStringProvided(request.body.name)) {
+    if(!isStringProvided(request.body.name)) {
         response.status(400).send({
             message: "Missing required information!"
         })
@@ -125,24 +123,19 @@ router.post("/:name?", (request, response, next) => {
     let values = [request.body.name]
 
     pool.query(query, values)
-        .then(result => {
-            response.name = result.rows[0].chatid;
-            next();
-        }).catch((err) => {
-            response.status(401).send({
-                message: "SQL Error!",
-                error: err
-            })
+    .then(result => {
+        response.name = result.rows[0].chatid
+        // next()
+        response.send({
+            success: true,
+            chatid: response.name
         })
-}, (request, response) => {
-    let query = `insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
-    let values = [response.name, request.decoded.memberid]
-
-    pool.query(query, values).then(result => {
-        response.status(200).send({
-            message: 'success create chat room and add login member to chat!'
-        });
-    });
-});
+    }).catch((err) => {
+        response.status(401).send({
+            message: "SQL Error!",
+            error: err
+        })
+    })
+})
 
 module.exports = router;
