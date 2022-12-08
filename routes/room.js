@@ -133,11 +133,11 @@ router.post("/:name?", (request, response, next) => {
             })
         })
 }, (request, response) => {
-    let query = `select concat($1, 'just join in the chat!')`
+    let query = `select concat($1, 'just join in the chat!') as mess`
     let values = [request.body.nick]
     pool.query(query, values)
         .then(result => {
-            response.nickname = result.rows[0].concat;
+            response.nickname = result.rows[0].mess;
             // next();
             response.status(200).send({
                 message: 'success',
