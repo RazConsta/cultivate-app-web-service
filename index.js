@@ -39,6 +39,8 @@ app.use('/chatRooms', middleware.checkToken, require('./routes/chatRooms.js'))
 app.use('/24HourWeather', require('./routes/weather/24HourWeather.js'))
 app.use('/currentWeather', require('./routes/weather/currentWeather.js'))
 app.use('/5DayWeather', require('./routes/weather/5DayWeather.js'))
+app.use('/zipToLatLong', require('./routes/weather/zipToLatLong.js'))
+
 
 app.use('/room', require('./routes/room.js'))
 

@@ -4,20 +4,13 @@ const express = require('express')
 const router = express.Router()
 require('dotenv').config()
 
-async function getCurrentWeather() {
-    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=47.11&lon=-122.11&cnt=10&units=imperial&appid=' + process.env.WEATHER_API_KEY
+//create an async function to get current weather that takes in lat and long parameters
+async function getCurrentWeather(long, lat) {
+    const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cnt=10&units=imperial&appid=' + process.env.WEATHER_API_KEY
     const request = await fetch(WEATHER_API_URL);
     const data = request.json();
     return data;
 }
-
-// //create an async function to get current weather that takes in lat and long parameters
-// async function getCurrentWeather(long, lat) {
-//     const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cnt=10&units=imperial&appid=' + process.env.WEATHER_API_KEY
-//     const request = await fetch(WEATHER_API_URL);
-//     const data = request.json();
-//     return data;
-// }
 
 /**
  * @api {get} /currentWeather Request for current weather info
@@ -25,7 +18,7 @@ async function getCurrentWeather() {
  * @apiGroup Weather
  */ 
 router.get('/', async (request, response) => {
-    getCurrentWeather()
+    getCurrentWeather(request.body.longitude, request.body.latitude)
         .then((weather) => {
             //Retrieve temp and conditions
             const result = 
