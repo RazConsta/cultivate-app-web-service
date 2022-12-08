@@ -137,15 +137,5 @@ router.post("/:name?", (request, response, next) => {
             })
         })
 });
-// , (request, response) => {
-//     let query = `insert into message (chatid, memberid, message) values ($1, $2, 'Hi all!')`
-//     let values = [response.name, request.decoded.memberid]
-
-//     pool.query(query, values).then(result => {
-//         response.status(200).send({
-//             message: 'success create chat room and add login member to chat!'
-//         });
-//     });
-// });
 
 module.exports = router;
