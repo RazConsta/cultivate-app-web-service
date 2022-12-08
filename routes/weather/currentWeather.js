@@ -25,8 +25,7 @@ async function getCurrentWeather(lat, long) {
  * @apiGroup Weather
  */ 
 router.get('/', async (request, response) => {
-
-    getCurrentWeather(request.longitude, request.latitude)
+    getCurrentWeather(request.body.longitude, request.body.latitude)
         .then((weather) => {
             //Retrieve temp and conditions
             const result = 
