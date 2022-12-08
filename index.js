@@ -39,7 +39,7 @@ app.use('/24HourWeather', require('./routes/weather/24HourWeather.js'))
 app.use('/currentWeather', require('./routes/weather/currentWeather.js'))
 app.use('/5DayWeather', require('./routes/weather/5DayWeather.js'))
 
-app.use('/room', require('./routes/room.js'))
+app.use('/room', middleware.checkToken, require('./routes/room.js'))
 
 /*
  * Return HTML for the / end point. 
