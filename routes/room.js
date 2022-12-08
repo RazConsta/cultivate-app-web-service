@@ -124,14 +124,8 @@ router.post("/", middleware.checkToken, (request, response, next) => {
 
     pool.query(query, values)
     .then(result => {
-        if (result.rowCount > 0) {
-            response.name = result.rows[0].chatid;
-            next();
-        } else {
-            response.status(400).send({
-                message: "Error!"
-            })
-        }
+        response.chatid = result.rows[0].chatid;
+        next();
     }).catch((err) => {
         response.status(401).send({
             message: "SQL Error!",
@@ -140,7 +134,7 @@ router.post("/", middleware.checkToken, (request, response, next) => {
     })
 }, (request, response) => {
     let query =`insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat message!')`
-    let values = [response.name, request.body.memberid] 
+    let values = [response.chatid, request.body.memberid] 
     pool.query(query, values)
     .then(result => {
         result.status(200).send({
