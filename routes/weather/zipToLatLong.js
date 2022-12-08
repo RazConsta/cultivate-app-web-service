@@ -17,7 +17,7 @@ async function getLatLong(zip) {
  * @apiName GetLatLong
  * @apiGroup Weather
  */
-router.get('/', async (request, response, next) => {
+router.post('/', async (request, response, next) => {
     getLatLong(request.body.zip)
         .then((location) => {
             //Retrieve lat and long
