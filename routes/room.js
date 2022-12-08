@@ -137,7 +137,7 @@ router.post("/:name?", (request, response, next) => {
     });
 }, (request, response) => {
     let query = `insert into chats (name) values ('secondquery')`
-    let values = [response.body.name]
+    let values = [request.body.name]
     pool.query(query, values).then(result => {
         response.send({
             success: true,
