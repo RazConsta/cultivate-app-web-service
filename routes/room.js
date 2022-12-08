@@ -132,34 +132,23 @@ router.post("/:name?", (request, response, next) => {
                 error: err
             })
         })
-}, (request, response, next) => {
+}, (request, response) => {
     let query = `select concat($1, 'just join in the chat!')`
     let values = [request.body.nick]
     pool.query(query, values)
         .then(result => {
             response.nickname = result.rows[0].concat;
-            next();
+            // next();
+            response.status(200).send({
+                message: 'success',
+                s3: response.nickname,
+            })
         }).catch((err) => {
             response.status(402).send({
                 message: "SQL Error! 2",
                 error: err
             })
         })
-}, (request, response) => {
-    let query = `insert into messages (chatid, memberid, message) values ($1, $2, $3)`
-    let values = [response.chatid, request.body.memberid, response.nickname]
-
-    pool.query(query, values)
-    .then(result => {
-        response.status(200).send({
-            message: 'success',
-        })
-    }).catch((err) => {
-        response.status(402).send({
-            message: "SQL Error 3!",
-            error: err
-        })
-    })
 });
 
 module.exports = router;
