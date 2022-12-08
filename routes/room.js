@@ -123,7 +123,7 @@ router.post("/:name?", (request, response, next) => {
 }, (request, response) => {
     let query = `insert into chats (name) values ($1) returning chatid`
     let values = [request.body.name]
-
+    console.log(request.decoded.memberid)
     pool.query(query, values)
         .then(result => {
             response.name = result.rows[0].chatid;
