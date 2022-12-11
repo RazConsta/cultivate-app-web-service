@@ -78,9 +78,9 @@ router.post(
 );
 
 router.delete(
-    '/delete/:memberid',
+    '/delete/:nickname',
     (request, response, next) => {
-        if (request.params.memberid === undefined) {
+        if (request.params.nickname === undefined) {
             response.status(400).send({
                 message: 'no memberid request sent!',
             });
@@ -90,7 +90,7 @@ router.delete(
     },
     (request, response) => {
         let query = `DELETE FROM chosen WHERE firstname=$1`;
-        let values = [request.params.memberid];
+        let values = [request.params.nickname];
 
         pool.query(query, values)
             .then((result) => {
