@@ -89,7 +89,7 @@ router.delete(
         }
     },
     (request, response) => {
-        let query = `DELETE FROM chosen WHERE memberid=$1`;
+        let query = `DELETE FROM chosen WHERE firstname=$1`;
         let values = [request.params.memberid];
 
         pool.query(query, values)
