@@ -133,9 +133,7 @@ router.post("/:name?", (request, response, next) => {
             })
         })
 }, (request, response, next) => {
-    // let query = `insert into messages (chatid, memberid, message) select (chatid, memberid, message) from chosen)`
     let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat room!')`
-    // let query = `update chosen set chatid=$1`
     let values = [response.chatid, request.body.memberid]
 
     pool.query(query, values)
@@ -163,18 +161,17 @@ router.post("/:name?", (request, response, next) => {
     let values = [response.chatid]
 
     pool.query(query, values)
-        .then(
-            response.status(200).send({
+        .then(result => {
+            response.send({
                 message: "success",
             })
-
+        }
         ).catch((err) => {
-            response.send({
+            response.status(403).send({
                 message: "SQL Error 4!",
                 error: err
             })
         })
-
 }
 );
 
