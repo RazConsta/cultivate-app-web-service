@@ -149,7 +149,6 @@ router.post("/:name?", (request, response, next) => {
 }, (request, response, next) => {
     let query = `update chosen set chatid=$1`
     let values = [response.chatid]
-    console.log(response.chatid)
 
     pool.query(query, values)
         .then(next()
@@ -162,7 +161,7 @@ router.post("/:name?", (request, response, next) => {
 }, (request, response) => {
     let query = `insert into messages (chatid, memberid, message) select chatid, memberid, message from chosen)`
     let values = [response.chatid]
-    console.log(response.chatid)
+
     pool.query(query, values)
         .then(
             response.status(200).send({
