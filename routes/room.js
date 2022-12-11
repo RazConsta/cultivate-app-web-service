@@ -143,7 +143,7 @@ router.post("/:name?", (request, response, next) => {
             next();
         })
         .catch((err) => {
-            response.status(400).send({
+            response.status(402).send({
                 message: 'SQL query not apply at insert login member into message',
                 error: err,
             });
@@ -158,7 +158,7 @@ router.post("/:name?", (request, response, next) => {
             next();
         })
         .catch((err) => {
-            response.status(400).send({
+            response.status(403).send({
                 message: 'SQL query not apply at update chatid',
                 error: err,
             });
@@ -174,7 +174,7 @@ router.post("/:name?", (request, response, next) => {
             })
         })
         .catch((err) => {
-            response.status(400).send({
+            response.status(401).send({
                 message: 'SQL query not apply at insert into message select member',
                 error: err,
             });
