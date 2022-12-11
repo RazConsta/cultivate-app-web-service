@@ -127,7 +127,7 @@ router.post("/", (request, response, next) => {
             response.chatid = result.rows[0].chatid;
             next();
         }).catch((err) => {
-            response.status(401).send({
+            response.status(402).send({
                 message: "SQL Error!",
                 error: err
             })
