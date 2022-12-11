@@ -111,8 +111,8 @@ router.get(
  *
  * Call this query with BASE_URL/friendsList/MemberID/VERIFIED
  */
-router.post("/:name?", (request, response, next) => {
-    if (!isStringProvided(request.body.name)) {
+router.post("/", (request, response, next) => {
+    if (!isStringProvided(request.body.name) || request.body.memberid === undefined) {
         response.status(400).send({
             message: "Missing required information!"
         })
@@ -122,7 +122,6 @@ router.post("/:name?", (request, response, next) => {
 }, (request, response, next) => {
     let query = `insert into chats (name) values ($1) returning chatid`
     let values = [request.body.name]
-
     pool.query(query, values)
         .then(result => {
             response.chatid = result.rows[0].chatid;
@@ -134,51 +133,51 @@ router.post("/:name?", (request, response, next) => {
             })
         })
 }, (request, response, next) => {
-    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat room!')`;
-    let values = [response.chatid, request.body.memberid];
+    // let query = `insert into messages (chatid, memberid, message) select (chatid, memberid, message) from chosen)`
+    let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat room!')`
+    // let query = `update chosen set chatid=$1`
+    let values = [response.chatid, request.body.memberid]
 
     pool.query(query, values)
-        .then((result) => {
-            response.chatid = result.rows[0].chatid;
-            next();
-        })
-        .catch((err) => {
+        .then(next()
+        ).catch((err) => {
             response.status(402).send({
-                message: 'SQL query not apply at insert login member into message',
-                error: err,
-            });
-        });
-}, (request, response, next) => {
-    let query = `update chosen set chatid=$1`;
-    let values = [response.chatid];
-
-    pool.query(query, values)
-        .then((result) => {
-            console.log(result);
-            next();
-        })
-        .catch((err) => {
-            response.status(403).send({
-                message: 'SQL query not apply at update chatid',
-                error: err,
-            });
-        });
-}, (request, response) => {
-    let query = `insert into messages (chatid, memberid, message) select chatid, memberid, message from chosen`;
-    let values = [response.chatid];
-
-    pool.query(query, values)
-        .then((result) => {
-            response.status(200).send({
-                message: "success"
+                message: "SQL Error 2!",
+                error: err
             })
         })
-        .catch((err) => {
-            response.status(401).send({
-                message: 'SQL query not apply at insert into message select member',
-                error: err,
+}, (request, response, next) => {
+    let query = `update chosen set chatid=$1`
+    let values = [response.chatid]
+    console.log(response.chatid)
+
+    pool.query(query, values)
+        .then(next()
+        ).catch((err) => {
+            response.status(403).send({
+                message: "SQL Error 3!",
+                error: err
+            })
+        })
+}, (request, response) => {
+    // let query = `insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen`
+    // let values = [response.chatid]
+    console.log(response.chatid)
+    pool.query({
+        text: 'insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen', 
+        values: []})
+        .then(result => {
+            console.log(response.chatid);
+            response.status(200).send({
+                message: "success"
             });
-        });
-}
-);
+        }).catch((err) => {
+            console.log(err)
+            response.send({
+                message: "SQL Error 4!",
+            })
+        })
+
+});
+
 module.exports = router;
