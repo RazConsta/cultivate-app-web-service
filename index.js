@@ -34,6 +34,7 @@ app.use('/messages', middleware.checkToken, require('./routes/messages.js')) // 
 app.use('/chats', middleware.checkToken, require('./routes/chat.js')) // Create and Retrieve Chat Rooms
 app.use('/auth', middleware.checkToken, require('./routes/pushyregister.js')) //accept Pushy Tokens
 app.use('/chatRooms', middleware.checkToken, require('./routes/chatRooms.js')) 
+app.use('/group', require('./routes/group.js')) 
 
 //Weather
 app.use('/24HourWeather', require('./routes/weather/24HourWeather.js'))
