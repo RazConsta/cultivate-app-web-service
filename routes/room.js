@@ -132,21 +132,51 @@ router.post("/:name?", (request, response, next) => {
                 error: err
             })
         })
-}, (request, response) => {
+}, (request, response, next) => {
+    // let query = `insert into messages (chatid, memberid, message) select (chatid, memberid, message) from chosen)`
     let query = `insert into messages (chatid, memberid, message) values ($1, $2, 'I just create a chat room!')`
+    // let query = `update chosen set chatid=$1`
     let values = [response.chatid, request.body.memberid]
 
     pool.query(query, values)
-    .then(result => {
-        response.status(200).send({
-            message: 'success',
+        .then(next()
+        ).catch((err) => {
+            response.status(402).send({
+                message: "SQL Error 2!",
+                error: err
+            })
         })
-    }).catch((err) => {
-        response.status(402).send({
-            message: "SQL Error 2!",
-            error: err
+}, (request, response, next) => {
+    let query = `update chosen set chatid=$1`
+    let values = [response.chatid]
+    console.log(response.chatid)
+
+    pool.query(query, values)
+        .then(next()
+        ).catch((err) => {
+            response.status(403).send({
+                message: "SQL Error 3!",
+                error: err
+            })
         })
-    })
-});
+}, (request, response) => {
+    let query = `insert into messages (chatid, memberid, message) select chatid, memberid, message from chosen)`
+    let values = [response.chatid]
+    console.log(response.chatid)
+    pool.query(query, values)
+        .then(
+            response.status(200).send({
+                message: "success",
+            })
+
+        ).catch((err) => {
+            response.send({
+                message: "SQL Error 4!",
+                error: err
+            })
+        })
+
+}
+);
 
 module.exports = router;

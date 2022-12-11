@@ -59,15 +59,15 @@ router.post(
         }
     },
     (request, response) => {
-        let query = `insert into chosen(memberid, firstname) values ($1, $2)`;
+        let query = `insert into chosen(memberid, firstname, chatid, message) values($1, $2, 0, 'Hi! you are invited to a chat room!')`;
         let values = [request.params.memberid, request.body.firstname];
 
         pool.query(query, values)
-            .then((result) => {
+            .then(
                 response.status(200).send({
                     message: "success",
-                });
-            })
+                })
+            )
             .catch((err) => {
                 response.status(400).send({
                     message: 'SQL Error',
