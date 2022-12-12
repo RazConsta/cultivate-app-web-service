@@ -172,14 +172,15 @@ router.post("/", (request, response, next) => {
 
 
 router.post("/update", (request, response) => {
-    let query = `insert into messages(chatid, memberid, message) select chatid, memberid, message from $1`
-    let values = [request.body.name]
+    let query = "insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen"
+    let values = []
 
     pool.query(query, values)
         .then(result => {
             console.log("update pass!");
             response.send({
                 message: "sucess"
+
             })
         }).catch((err) => {
             console.log(err)
