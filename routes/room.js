@@ -172,8 +172,8 @@ router.post("/", (request, response, next) => {
 
 
 router.post("/update", (request, response) => {
-    let query = `insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen`
-    let values = []
+    let query = `insert into messages(chatid, memberid, message) select chatid, memberid, message from $1`
+    let values = [request.body.name]
 
     pool.query(query, values)
         .then(result => {
@@ -188,24 +188,5 @@ router.post("/update", (request, response) => {
             })
         })
 });
-// }, (request, response) => {
-//     // let query = `insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen`
-//     // let values = [response.chatid]
-//     console.log(response.chatid)
-//     pool.query({
-//         text: 'insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen', 
-//         values: []})
-//         .then(result => {
-//             console.log(response.chatid);
-//             response.status(200).send({
-//                 message: "success"
-//             });
-//         }).catch((err) => {
-//             console.log(err)
-//             response.send({
-//                 message: "SQL Error 4!",
-//             })
-//         })
-
 
 module.exports = router;
