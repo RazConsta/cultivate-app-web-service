@@ -154,13 +154,14 @@ router.post("/", (request, response, next) => {
     let values = [response.chatid]
     console.log(response.chatid)
 
-    pool.query(query, values)
+    pool.query(query, values, next)
         .then(result => {
             console.log(response.chatid);
             console.log("passed update chatid to chosen");
-            response.send({
-                message: "success",
-            })
+            next()
+            // response.send({
+            //     message: "success",
+            // })
         }).catch((err) => {
             console.log(err);
             response.status(402).send({
@@ -168,10 +169,7 @@ router.post("/", (request, response, next) => {
                 error: err
             })
         })
-});
-
-
-router.post("/update", (request, response) => {
+}, (request, response) => {
     let query = "insert into messages(chatid, memberid, message) select chatid, memberid, message from chosen"
     let values = []
 
@@ -179,7 +177,7 @@ router.post("/update", (request, response) => {
         .then(result => {
             console.log("update pass!");
             response.send({
-                message: "sucess"
+                message: "success"
 
             })
         }).catch((err) => {
@@ -189,5 +187,8 @@ router.post("/update", (request, response) => {
             })
         })
 });
+
+
+router.post("/update", );
 
 module.exports = router;
