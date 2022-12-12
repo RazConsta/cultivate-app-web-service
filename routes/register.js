@@ -133,7 +133,7 @@ router.post('/', (request, response, next) => {
                 });
                 
                 const options = {
-                    from: "cultivate-app@outlook.com",
+                    from: "cultivate_app@outlook.com",
                     to: request.body.email,
                     subject: "Your Cultivate email verification",
                     html: 'Thank you for joining Cultivate!' +  
