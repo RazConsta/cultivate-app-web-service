@@ -75,7 +75,7 @@ router.post("/", (request, response, next) => {
         })
 }, (request, response, next) => {
             //validate memberid exists in the chat
-            let query = 'SELECT * FROM ChatMembers WHERE ChatId=$1 AND MemberId=$2'
+            let query = 'SELECT * FROM messages WHERE ChatId=$1 AND MemberId=$2'
             let values = [request.body.chatId, request.decoded.memberid]
         
             pool.query(query, values)
