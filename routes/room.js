@@ -138,7 +138,7 @@ router.post("/", (request, response, next) => {
     // let query = `update chosen set chatid=$1`
     let values = [response.chatid, request.body.memberid]
 
-    pool.query(query, values)
+    pool.query(query, values, next)
         .then(result => {
             console.log(response.chatid);
             console.log("passed insert login to message");
@@ -149,7 +149,7 @@ router.post("/", (request, response, next) => {
                 error: err
             })
         })
-}, (request, response) => {
+}, (request, response, next) => {
     let query = `update chosen set chatid=$1`
     let values = [response.chatid]
     console.log(response.chatid)
